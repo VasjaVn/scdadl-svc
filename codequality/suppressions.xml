@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+        "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+        "http://checkstyle.sourceforge.net/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <!-- ignore magic numbers in tests -->
+    <suppress checks="MagicNumber" files=".*[\\/]src[\\/](test|it)[\\/]"/>
+
+    <!-- ignore method length of tests -->
+    <suppress checks="MethodLength" files=".*[\\/]src[\\/](test|it)[\\/]"/>
+
+    <!-- ignore visibility modifier of tests -->
+    <suppress checks="VisibilityModifier" files=".*[\\/]src[\\/](test|it)[\\/]" />
+
+    <!-- ignore file does not end with a newline -->
+    <suppress checks="NewlineAtEndOfFile" files=".java" />
+    <suppress checks="NewlineAtEndOfFile" files=".properties" />
+
+    <!-- allow default constructor for App -->
+    <suppress checks="HideUtilityClassConstructor" files="App.java"/>
+</suppressions>

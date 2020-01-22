@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <!-- No Tabs -->
+    <module name="FileTabCharacter"/>
+    <module name="NewlineAtEndOfFile">
+        <property name="severity" value="info"/>
+    </module>
+
+    <module name="FileLength">
+        <property name="max" value="1000"/>
+        <property name="severity" value="warning"/>
+    </module>
+
+    <module name="RegexpSingleline">
+        <property name="format" value="\s+$"/>
+        <property name="minimum" value="0"/>
+        <property name="maximum" value="0"/>
+        <property name="message" value="Line has trailing spaces."/>
+        <property name="severity" value="info"/>
+    </module>
+
+    <module name="TreeWalker">
+
+        <!-- Checks Naming Conventions -->
+        <module name="ConstantName"/>
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName"/>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="PackageName"/>
+        <module name="ParameterName"/>
+        <module name="StaticVariableName"/>
+        <module name="TypeName"/>
+
+        <!-- Checks imports -->
+        <module name="AvoidStarImport"/>
+        <!-- intelliJ default import order -->
+<!--        <module name="CustomImportOrder">-->
+<!--            <property name="customImportOrderRules" value="THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC"/>-->
+<!--            <property name="specialImportsRegExp" value="^javax\."/>-->
+<!--            <property name="standardPackageRegExp" value="^java\."/>-->
+<!--            <property name="sortImportsInGroupAlphabetically" value="true"/>-->
+<!--            <property name="separateLineBetweenGroups" value="false"/>-->
+<!--            <property name="severity" value="info"/>-->
+<!--        </module>-->
+        <module name="ImportControl">
+            <property name="file" value="codequality/import-control.xml"/>
+            <property name="path" value="^.*[\\/]src[\\/]main[\\/].*$"/>
+        </module>
+        <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+
+        <!-- Checks Size Violations -->
+        <module name="MethodLength">
+            <property name="max" value="50"/>
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="ParameterNumber">
+            <property name="max" value="7"/>
+            <property name="ignoreOverriddenMethods" value="true"/>
+            <property name="severity" value="warning"/>
+        </module>
+
+        <!-- Checks whitespace -->
+        <module name="EmptyForIteratorPad"/>
+        <module name="EmptyLineSeparator">
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="GenericWhitespace"/>
+        <module name="MethodParamPad"/>
+        <module name="NoLineWrap"/>
+        <module name="NoWhitespaceAfter"/>
+        <module name="NoWhitespaceBefore"/>
+        <!--<module name="OperatorWrap"/>-->
+        <module name="ParenPad"/>
+        <!--<module name="SeparatorWrap"/>-->
+        <module name="SingleSpaceSeparator"/>
+        <module name="TypecastParenPad"/>
+        <module name="WhitespaceAfter"/>
+        <module name="WhitespaceAround"/>
+
+        <!-- Modifier Checks -->
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
+
+        <!-- Checks blocks -->
+        <module name="AvoidNestedBlocks"/>
+        <module name="EmptyBlock">
+            <property name="option" value="text"/>
+        </module>
+        <module name="LeftCurly"/>
+        <module name="NeedBraces"/>
+        <module name="RightCurly"/>
+
+        <!-- Checks common coding problems -->
+        <!--<module name="DeclarationOrder"/>-->
+        <module name="DefaultComesLast"/>
+        <module name="EmptyStatement"/>
+        <module name="EqualsAvoidNull"/>
+        <module name="EqualsHashCode"/>
+        <module name="HiddenField">
+            <property name="ignoreConstructorParameter" value="true"/>
+            <property name="ignoreSetter" value="true"/>
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="IllegalCatch">
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="IllegalInstantiation"/>
+        <module name="InnerAssignment"/>
+        <module name="MagicNumber">
+            <property name="severity" value="warning"/>
+        </module>
+        <module name="MissingSwitchDefault"/>
+        <module name="OneStatementPerLine"/>
+        <module name="OverloadMethodsDeclarationOrder">
+            <property name="severity" value="info"/>
+        </module>
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="StringLiteralEquality"/>
+
+        <!-- Checks class design -->
+        <module name="HideUtilityClassConstructor"/>
+        <module name="InnerTypeLast"/>
+        <module name="VisibilityModifier"/>
+
+        <!-- Java style arrays: String[] args -->
+        <module name="ArrayTypeStyle"/>
+        <!-- check longs defined with L not l -->
+        <module name="UpperEll"/>
+    </module>
+
+    <module name="SuppressionFilter">
+        <property name="file" value="codequality/suppressions.xml"/>
+        <property name="optional" value="false"/>
+    </module>
+</module>
