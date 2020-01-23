@@ -36,6 +36,8 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ComponentServiceTest extends AbstractServiceTest {
+    private static final String COMPONENT_NAME_FOR_CREATE = "component_name_for_create";
+
     private ComponentServiceImpl componentService;
     private ComponentDto componentDto;
 
@@ -46,7 +48,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
     public void setUp() {
         componentDto = ComponentDto.builder()
                 .id(COMPONENT_ID)
-                .componentName(COMPONENT_NAME)
+                .componentName(COMPONENT_NAME_FOR_CREATE)
                 .componentGroupName(COMPONENT_GROUP_NAME)
                 .platformName(COMPONENT_PLATFORM_NAME)
                 .assetInsightId(COMPONENT_ASSET_INSIGHT_ID)
@@ -89,7 +91,6 @@ public class ComponentServiceTest extends AbstractServiceTest {
 
         when(pageMock.getContent()).thenReturn(List.of(componentEntity));
         when(componentRepositoryMock.searchByComponentName(anyString(), any())).thenReturn(pageMock);
-        when(componentRepositoryMock.findByName(anyString())).thenReturn(Optional.ofNullable(null));
         when(componentRepositoryMock.findById(anyLong())).thenReturn(Optional.of(componentEntity));
 
         componentService = new ComponentServiceImpl();
@@ -115,7 +116,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
     @Test(expected = ComponentAlreadyExistException.class)
     public void testCreateComponentFailsWhenComponentAlreadyExist() {
         // given
-        when(componentRepositoryMock.findByName(anyString())).thenReturn(Optional.of(ComponentEntity.builder().build()));
+        componentDto.setComponentName(COMPONENT_NAME);
 
         // when
         componentService.createComponent(componentDto);
