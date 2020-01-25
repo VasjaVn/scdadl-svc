@@ -59,9 +59,9 @@ public abstract class AbstractServiceTest {
                 .packageUrl(componentVersionDto.getPackageUrl())
                 .format(componentVersionDto.getFormat())
                 .qualityGrade(componentVersionDto.getQualityGrade())
-                .validated(componentVersionDto.getVersionValidated())
+                .versionValidated(componentVersionDto.getVersionValidated())
                 .versionAvoid(componentVersionDto.getVersionAvoid())
-                .validationError(componentVersionDto.getVersionValidationError())
+                .versionValidationError(componentVersionDto.getVersionValidationError())
                 .build();
     }
 }

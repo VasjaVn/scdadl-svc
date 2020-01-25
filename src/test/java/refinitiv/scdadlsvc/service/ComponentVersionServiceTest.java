@@ -57,9 +57,9 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
                 .packageUrl(COMPONENT_VERSION_PACKAGE_URL)
                 .format(COMPONENT_VERSION_FORMAT)
                 .qualityGrade(COMPONENT_VERSION_QUALITY_GRADE)
-                .validated(COMPONENT_VERSION_VALIDATED)
+                .versionValidated(COMPONENT_VERSION_VALIDATED)
                 .versionAvoid(COMPONENT_VERSION_AVOID)
-                .validationError(COMPONENT_VERSION_VALIDATION_ERRORS)
+                .versionValidationError(COMPONENT_VERSION_VALIDATION_ERRORS)
                 .metadata(MetadataUtility.withOnlyCreatedData("test_created_by"))
                 .build();
 
@@ -129,9 +129,9 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
         assertEquals(COMPONENT_VERSION_PACKAGE_URL, componentVersionEntity.getPackageUrl());
         assertEquals(COMPONENT_VERSION_FORMAT, componentVersionEntity.getFormat());
         assertEquals(COMPONENT_VERSION_QUALITY_GRADE, componentVersionEntity.getQualityGrade());
-        assertEquals(COMPONENT_VERSION_VALIDATED, componentVersionEntity.getValidated());
+        assertEquals(COMPONENT_VERSION_VALIDATED, componentVersionEntity.getVersionValidated());
         assertEquals(COMPONENT_VERSION_AVOID, componentVersionEntity.getVersionAvoid());
-        assertEquals(COMPONENT_VERSION_VALIDATION_ERRORS, componentVersionEntity.getValidationError());
+        assertEquals(COMPONENT_VERSION_VALIDATION_ERRORS, componentVersionEntity.getVersionValidationError());
     }
 
     @Test(expected = ComponentVersionNotFoundException.class)

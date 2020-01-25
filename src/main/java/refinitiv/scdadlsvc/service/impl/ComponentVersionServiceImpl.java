@@ -112,8 +112,8 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
         componentVersionEntity.setPackageUrl(dto.getPackageUrl());
         componentVersionEntity.setFormat(dto.getFormat());
         componentVersionEntity.setQualityGrade(dto.getQualityGrade());
-        componentVersionEntity.setValidated(dto.getVersionValidated());
-        componentVersionEntity.setValidationError(dto.getVersionValidationError());
+        componentVersionEntity.setVersionValidated(dto.getVersionValidated());
+        componentVersionEntity.setVersionValidationError(dto.getVersionValidationError());
         componentVersionEntity.getMetadata().setUpdatedDate(new Date());
         componentVersionEntity.getMetadata().setUpdatedBy("updatedBy");
 
@@ -129,9 +129,9 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
                 .packageUrl(componentVersionDto.getPackageUrl())
                 .format(componentVersionDto.getFormat())
                 .qualityGrade(componentVersionDto.getQualityGrade())
-                .validated(componentVersionDto.getVersionValidated())
+                .versionValidated(componentVersionDto.getVersionValidated())
                 .versionAvoid(componentVersionDto.getVersionAvoid())
-                .validationError(componentVersionDto.getVersionValidationError())
+                .versionValidationError(componentVersionDto.getVersionValidationError())
                 .metadata(MetadataUtility.withOnlyCreatedData(createdBy))
                 .component(componentEntity)
                 .build();

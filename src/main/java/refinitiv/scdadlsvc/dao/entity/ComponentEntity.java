@@ -36,7 +36,7 @@ public class ComponentEntity implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "asset_insight_id", nullable = false)
+    @Column(name = "asset_insight_id")
     private Long assetInsightId;
 
     @Embedded

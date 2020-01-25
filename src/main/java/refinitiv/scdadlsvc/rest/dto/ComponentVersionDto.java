@@ -64,8 +64,8 @@ public class ComponentVersionDto implements Serializable {
                 .packageUrl(componentVersionEntity.getPackageUrl())
                 .format(componentVersionEntity.getFormat())
                 .qualityGrade(componentVersionEntity.getQualityGrade())
-                .versionValidated(componentVersionEntity.getValidated())
-                .versionValidationError(componentVersionEntity.getValidationError())
+                .versionValidated(componentVersionEntity.getVersionValidated())
+                .versionValidationError(componentVersionEntity.getVersionValidationError())
                 .versionAvoid(componentVersionEntity.getVersionAvoid())
                 .component(ComponentDto.fromEntity(componentVersionEntity.getComponent()))
                 .build();

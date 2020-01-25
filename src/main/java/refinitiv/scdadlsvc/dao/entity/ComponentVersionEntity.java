@@ -40,27 +40,27 @@ public class ComponentVersionEntity implements Serializable {
     @Column(nullable = false)
     private String version;
 
-    @Column(name = "package_url", nullable = false)
+    @Column(name = "package_url")
     private String packageUrl;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column
     private Format format;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "quality_grade", nullable = false)
+    @Column(name = "quality_grade")
     private QualityGrade qualityGrade;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private VersionValidated validated;
+    @Column(name = "validated")
+    private VersionValidated versionValidated;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "version_avoid", nullable = false)
+    @Column(name = "version_avoid")
     private VersionAvoid versionAvoid;
 
-    @Column(name = "validation_error", nullable = false)
-    private String validationError;
+    @Column(name = "validation_error")
+    private String versionValidationError;
 
     @Embedded
     private Metadata metadata;
