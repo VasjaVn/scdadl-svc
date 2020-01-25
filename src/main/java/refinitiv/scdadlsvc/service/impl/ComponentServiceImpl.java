@@ -54,10 +54,6 @@ public class ComponentServiceImpl implements ComponentService {
     @Override
     public void createComponent(ComponentDto dto) {
         log.info("createComponent: - [componentDto={}]", dto);
-        if (componentRepository.findByName(dto.getComponentName()).isPresent()) {
-            log.warn("createComponent: component name is already existed - [componentName=\"{}\"]", dto.getComponentName());
-            throw new ComponentAlreadyExistException(String.format("Component name is already existed: [componentName=\"%s\"]", dto.getComponentName()));
-        }
 
         PlatformEntity platformEntity = platformRepository.findByName(dto.getPlatformName());
         if (Objects.isNull(platformEntity)) {
@@ -68,13 +64,20 @@ public class ComponentServiceImpl implements ComponentService {
         Optional<ComponentGroupEntity> componentGroupEntityOptional = platformEntity.getComponentGroups().stream()
                 .filter(ge -> Objects.equals(ge.getName(), dto.getComponentGroupName()))
                 .findFirst();
-
         if (componentGroupEntityOptional.isEmpty()) {
             log.warn("createComponent: component group name is not existed - [componentGroupName=\"{}\"]", dto.getComponentGroupName());
             throw new CreateComponentWithWrongGroupNameException(String.format("Component group name is not existed: [componentGroupName=\"%s\"]", dto.getComponentGroupName()));
         }
 
         ComponentGroupEntity componentGroupEntity = componentGroupEntityOptional.get();
+        Optional<ComponentEntity> componentEntityOptional = componentGroupEntity.getComponents().stream()
+                .filter(c -> Objects.equals(c.getName(), dto.getComponentName()))
+                .findFirst();
+        if (componentEntityOptional.isPresent()) {
+            log.warn("createComponent: component name is already existed - [componentName=\"{}\": (platformName=\"{}\" -> componentGroupName=\"{}\")]", dto.getComponentName(), dto.getPlatformName(), dto.getComponentGroupName());
+            throw new ComponentAlreadyExistException(String.format("Component name is already existed - [componentName=\"%s\": (platformName=\"%s\" -> componentGroupName=\"%s\")]", dto.getComponentName(), dto.getPlatformName(), dto.getComponentGroupName()));
+        }
+
         ComponentEntity componentEntity = ComponentEntity.builder()
                 .name(dto.getComponentName())
                 .assetInsightId(dto.getAssetInsightId())
