@@ -9,6 +9,7 @@ import lombok.ToString;
 import refinitiv.scdadlsvc.dao.entity.enums.Format;
 import refinitiv.scdadlsvc.dao.entity.enums.QualityGrade;
 import refinitiv.scdadlsvc.dao.entity.enums.VersionAvoid;
+import refinitiv.scdadlsvc.dao.entity.enums.VersionValidated;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -50,8 +51,9 @@ public class ComponentVersionEntity implements Serializable {
     @Column(name = "quality_grade", nullable = false)
     private QualityGrade qualityGrade;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Boolean validated;
+    private VersionValidated validated;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "version_avoid", nullable = false)

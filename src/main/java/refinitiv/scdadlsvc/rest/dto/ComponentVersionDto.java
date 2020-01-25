@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import refinitiv.scdadlsvc.dao.entity.enums.VersionValidated;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -43,7 +44,7 @@ public class ComponentVersionDto implements Serializable {
 
     @NotNull(message = "ComponentVersionDto.versionValidated is null.")
     @JsonProperty
-    private Boolean versionValidated;
+    private VersionValidated versionValidated;
 
     @NotNull(message = "ComponentVersionDto.versionAvoid is null.")
     @JsonProperty

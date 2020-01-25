@@ -31,8 +31,8 @@ VALUES
 
 INSERT INTO component_version(component_fk, version, package_url, format, quality_grade, validated, version_avoid, validation_error, created_date, created_by, updated_date, updated_by)
 VALUES
-    (1, '1.1.1-1-1-1_1', 'http://package_url_1_1_1', 'ZIP', 'PRODUCT', true, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
-    (1, '1.1.1-1-1-1_2', 'http://package_url_1_1_2', 'ZIP', 'PRODUCT', false, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
-    (2, '1.1.1-1-1-2_1', 'http://package_url_1_1_2', 'ZIP', 'PRODUCT', true, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
-    (2, '1.1.1-1-1-2_2', 'http://package_url_1_1_3', 'RAR', 'PRODUCT', true, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL);
+    (1, '1.1.1-1-1-1_1', 'http://package_url_1_1_1', 'ZIP', 'PRODUCTION', 'NEW', 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
+    (1, '1.1.1-1-1-1_2', 'http://package_url_1_1_2', 'ZIP', 'DEVELOPMENT', 'TRUE', 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
+    (2, '1.1.1-1-1-2_1', 'http://package_url_1_1_2', 'ZIP', 'LAB', 'FALSE', 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
+    (2, '1.1.1-1-1-2_2', 'http://package_url_1_1_3', 'RAR', 'PRE_PRODUCTION', 'PROCESSING', 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL);
 

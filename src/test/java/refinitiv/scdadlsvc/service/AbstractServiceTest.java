@@ -5,6 +5,7 @@ import refinitiv.scdadlsvc.dao.entity.ComponentVersionEntity;
 import refinitiv.scdadlsvc.dao.entity.enums.Format;
 import refinitiv.scdadlsvc.dao.entity.enums.QualityGrade;
 import refinitiv.scdadlsvc.dao.entity.enums.VersionAvoid;
+import refinitiv.scdadlsvc.dao.entity.enums.VersionValidated;
 import refinitiv.scdadlsvc.dao.repository.ComponentGroupRepository;
 import refinitiv.scdadlsvc.dao.repository.ComponentRepository;
 import refinitiv.scdadlsvc.dao.repository.ComponentVersionRepository;
@@ -33,8 +34,8 @@ public abstract class AbstractServiceTest {
     protected static final String COMPONENT_VERSION = "111.222.333-444-555-666";
     protected static final String COMPONENT_VERSION_PACKAGE_URL = "http://url.package.component";
     protected static final Format COMPONENT_VERSION_FORMAT = Format.R10K;
-    protected static final QualityGrade COMPONENT_VERSION_QUALITY_GRADE = QualityGrade.PRODUCT;
-    protected static final Boolean COMPONENT_VERSION_VALIDATED = Boolean.TRUE;
+    protected static final QualityGrade COMPONENT_VERSION_QUALITY_GRADE = QualityGrade.PRODUCTION;
+    protected static final VersionValidated COMPONENT_VERSION_VALIDATED = VersionValidated.NEW;
     protected static final VersionAvoid COMPONENT_VERSION_AVOID = VersionAvoid.BAD_RELEASE;
     protected static final String COMPONENT_VERSION_VALIDATION_ERRORS = "component validation errors";
 
