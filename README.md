@@ -1,2 +1,2 @@
 # scdadl-svc
-ServiceNove CDA Data Layer
+ServiceNow CDA Data Layer
