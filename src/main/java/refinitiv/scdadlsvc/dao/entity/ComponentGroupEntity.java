@@ -38,12 +38,10 @@ public class ComponentGroupEntity {
     @Embedded
     private Metadata metadata;
 
-//    @OneToMany
-//    @JoinColumn(name = "component_group_fk")
     @OneToMany(mappedBy = "componentGroup")
     private List<ComponentEntity> components;
 
     @ManyToOne
-    @JoinColumn(name = "platform_fk")
+    @JoinColumn(name = "platform_id")
     private PlatformEntity platform;
 }

@@ -20,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -59,6 +60,7 @@ public class ComponentVersionEntity implements Serializable {
     @Column(name = "version_avoid")
     private VersionAvoid versionAvoid;
 
+    @Lob
     @Column(name = "validation_error")
     private String versionValidationError;
 
@@ -66,6 +68,6 @@ public class ComponentVersionEntity implements Serializable {
     private Metadata metadata;
 
     @ManyToOne
-    @JoinColumn(name = "component_fk")
+    @JoinColumn(name = "component_id")
     private ComponentEntity component;
 }

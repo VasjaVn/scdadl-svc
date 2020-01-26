@@ -46,6 +46,6 @@ public class ComponentEntity implements Serializable {
     private List<ComponentVersionEntity> componentVersions;
 
     @ManyToOne
-    @JoinColumn(name = "component_group_fk")
+    @JoinColumn(name = "component_group_id")
     private ComponentGroupEntity componentGroup;
 }

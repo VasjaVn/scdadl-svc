@@ -15,13 +15,13 @@ VALUES
     ('tr other', '2016-06-22 19:10:25-07', 'CREATED_NAME', NULL, NULL);
 
 
-INSERT INTO component_group(platform_fk, name, created_date, created_by, updated_date, updated_by)
+INSERT INTO component_group(platform_id, name, created_date, created_by, updated_date, updated_by)
 VALUES
     (1, 'cmp_grp_1', '2016-06-22 19:10:25-07', 'CREATED_NAME', NULL, NULL),
     (1, 'cmp_grp_2', '2016-06-22 19:10:25-07', 'CREATED_NAME', NULL, NULL);
 
 
-INSERT INTO component(component_group_fk, name, asset_insight_id, created_date, created_by, updated_date, updated_by)
+INSERT INTO component(component_group_id, name, asset_insight_id, created_date, created_by, updated_date, updated_by)
 VALUES
 	(1, 'cmpnt_1_1', 5567, '2016-06-22 19:10:25-07', 'CREATED_NAME_1_1', NULL, NULL),
     (1, 'cmpnt_1_2', 5682, '2016-06-22 19:10:25-07', 'CREATED_NAME_1_2', NULL, NULL),
@@ -29,7 +29,7 @@ VALUES
     (2, 'cmpnt_2_2', 2112, '2016-06-22 19:10:25-07', 'CREATED_NAME_2_2', NULL, NULL);
 
 
-INSERT INTO component_version(component_fk, version, package_url, format, quality_grade, validated, version_avoid, validation_error, created_date, created_by, updated_date, updated_by)
+INSERT INTO component_version(component_id, version, package_url, format, quality_grade, validated, version_avoid, validation_error, created_date, created_by, updated_date, updated_by)
 VALUES
     (1, '1.1.1-1-1-1_1', 'http://package_url_1_1_1', 'ZIP', 'PRODUCTION', 'NEW', 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
     (1, '1.1.1-1-1-1_2', 'http://package_url_1_1_2', 'ZIP', 'DEVELOPMENT', 'TRUE', 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
