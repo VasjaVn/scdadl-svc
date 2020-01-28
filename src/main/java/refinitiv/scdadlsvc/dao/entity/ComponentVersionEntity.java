@@ -10,7 +10,7 @@ import refinitiv.scdadlsvc.dao.entity.enums.Format;
 import refinitiv.scdadlsvc.dao.entity.enums.QualityGrade;
 import refinitiv.scdadlsvc.dao.entity.enums.VersionAvoid;
 import refinitiv.scdadlsvc.dao.entity.enums.VersionValidated;
-import refinitiv.scdadlsvc.dao.entity.jntbl.CmpntStackVerCmpntVerEntity;
+import refinitiv.scdadlsvc.dao.entity.jntbl.ComponentConfigurationEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -75,5 +75,5 @@ public class ComponentVersionEntity implements Serializable {
     private ComponentEntity component;
 
     @OneToMany(mappedBy = "componentVersion")
-    private List<CmpntStackVerCmpntVerEntity> cmpntStackVerCmpntVers;
+    private List<ComponentConfigurationEntity> componentConfigurations;
 }

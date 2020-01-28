@@ -30,7 +30,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @Entity
 @Table(name = "cmpntstackver_cmpntver")
-public class CmpntStackVerCmpntVerEntity {
+public class ComponentConfigurationEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;

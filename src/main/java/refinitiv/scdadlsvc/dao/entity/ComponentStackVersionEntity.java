@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import refinitiv.scdadlsvc.dao.entity.jntbl.CmpntStackVerCmpntVerEntity;
+import refinitiv.scdadlsvc.dao.entity.jntbl.ComponentConfigurationEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -24,7 +24,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Setter
 @Getter
-@ToString
+@ToString(exclude = {"componentConfiguration"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -49,5 +49,5 @@ public class ComponentStackVersionEntity implements Serializable {
     private ComponentStackEntity componentStack;
 
     @OneToMany(mappedBy = "componentStackVersion")
-    private List<CmpntStackVerCmpntVerEntity> cmpntStackVerCmpntVers;
+    private List<ComponentConfigurationEntity> componentConfiguration;
 }

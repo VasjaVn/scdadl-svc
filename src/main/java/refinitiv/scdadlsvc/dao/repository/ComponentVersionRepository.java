@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ComponentVersionRepository extends JpaRepository<ComponentVersionEntity, Long> {
 
-    @Query(value = "SELECT * FROM COMPONENT_VERSION WHERE component_fk IN (SELECT c.id FROM COMPONENT c WHERE c.name LIKE :componentName%)",
+    @Query(value = "SELECT * FROM COMPONENT_VERSION WHERE component_id IN (SELECT c.id FROM COMPONENT c WHERE c.name LIKE :componentName%)",
            nativeQuery = true)
     Page<ComponentVersionEntity> searchByComponentName(@Param("componentName") String search, Pageable pageable);
 }

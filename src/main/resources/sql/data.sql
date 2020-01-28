@@ -34,14 +34,14 @@ VALUES
 
 INSERT INTO component_version(component_id, version, package_url, format, quality_grade, validated, version_avoid, validation_error, created_date, created_by, updated_date, updated_by)
 VALUES
-    (1, '1.1.1-1-1-1_1', 'http://package_url_1_1_1', 'ZIP', 'PRODUCT', true, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
-    (1, '1.1.1-1-1-1_2', 'http://package_url_1_1_2', 'ZIP', 'PRODUCT', false, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
-    (2, '1.1.1-1-1-2_1', 'http://package_url_1_1_2', 'ZIP', 'PRODUCT', true, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
-    (2, '1.1.1-1-1-2_2', 'http://package_url_1_1_3', 'RAR', 'PRODUCT', true, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
-    (5, '1.7', 'http://package_url_java_1.7', 'ZIP', 'PRODUCT', true, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
-    (5, '1.8', 'http://package_url_java_1.8', 'ZIP', 'PRODUCT', true, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
-    (6, '5.1', 'http://package_url_js_5.1', 'ZIP', 'PRODUCT', true, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL),
-    (6, '7.3', 'http://package_url_js_7.3', 'ZIP', 'PRODUCT', true, 'DEPRECATED', 'Validated_Error', '2016-06-22 19:10:25-07', '', NULL, NULL);
+    (1, '1.1.1-1-1-1_1', 'http://package_url_1_1_1', 'ZIP', 'PRODUCTION', 'FALSE', 'DEPRECATED', 'Validated Error 1', '2016-06-22 19:10:25-07', '', NULL, NULL),
+    (1, '1.1.1-1-1-1_2', 'http://package_url_1_1_2', 'ZIP', 'PRODUCTION', 'NEW', 'DEPRECATED', 'Validated Error 2', '2016-06-22 19:10:25-07', '', NULL, NULL),
+    (2, '1.1.1-1-1-2_1', 'http://package_url_1_1_2', 'ZIP', 'PRODUCTION', 'TRUE', 'DEPRECATED', 'Validated Error 3', '2016-06-22 19:10:25-07', '', NULL, NULL),
+    (2, '1.1.1-1-1-2_2', 'http://package_url_1_1_3', 'RAR', 'PRODUCTION', 'TRUE', 'DEPRECATED', 'Validated Error 4', '2016-06-22 19:10:25-07', '', NULL, NULL),
+    (5, '1.7', 'http://package_url_java_1.7', 'ZIP', 'PRODUCTION', 'NEW', 'DEPRECATED', 'Validated Error 5', '2016-06-22 19:10:25-07', '', NULL, NULL),
+    (5, '1.8', 'http://package_url_java_1.8', 'ZIP', 'PRODUCTION', 'TRUE', 'DEPRECATED', 'Validated Error 6', '2016-06-22 19:10:25-07', '', NULL, NULL),
+    (6, '5.1', 'http://package_url_js_5.1', 'ZIP', 'PRODUCTION', 'NEW', 'DEPRECATED', 'Validated Error 7', '2016-06-22 19:10:25-07', '', NULL, NULL),
+    (6, '7.3', 'http://package_url_js_7.3', 'ZIP', 'PRODUCTION', 'NEW', 'DEPRECATED', 'Validated Error 8', '2016-06-22 19:10:25-07', '', NULL, NULL);
 
 
 INSERT INTO component_stack(name, next_auto_ver_start_at, created_date, created_by, updated_date, updated_by)
@@ -58,9 +58,9 @@ VALUES
 
 INSERT INTO cmpntstackver_cmpntver(component_stack_ver_id, component_ver_id, trigger_new_stack_ver, min_grade)
 VALUES
-    (1, 5, true, 'PRODUCT'),
-    (1, 7, true, 'PRODUCT'),
-    (2, 5, true, 'PRODUCT'),
-    (2, 6, true, 'PRODUCT'),
-    (3, 6, true, 'PRODUCT'),
-    (3, 8, true, 'PRODUCT');
+    (1, 5, true, 'PRODUCTION'),
+    --(1, 7, true, 'PRODUCTION'),
+    --(2, 5, true, 'PRODUCTION'),
+    (2, 6, true, 'PRODUCTION'),
+    --(3, 6, true, 'PRODUCTION'),
+    (3, 8, true, 'PRODUCTION');

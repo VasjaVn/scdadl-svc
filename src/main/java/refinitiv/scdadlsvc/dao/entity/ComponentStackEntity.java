@@ -21,7 +21,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"metadata", "componentStackVersions"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
