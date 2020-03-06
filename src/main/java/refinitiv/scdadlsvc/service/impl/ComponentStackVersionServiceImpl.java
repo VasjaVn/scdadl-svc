@@ -43,10 +43,12 @@ public class ComponentStackVersionServiceImpl implements ComponentStackVersionSe
     @Override
     public void createComponentStackVersion(Long componentStackId, ComponentStackVersionDto dto) {
         Optional<ComponentStackEntity> componentStackEntityOptional = componentStackRepository.findById(componentStackId);
-/*
+
         if (!componentStackEntityOptional.isPresent()) {
             // throw
         }
+
+/*
 
         ComponentStackEntity componentStackEntity = componentStackEntityOptional.get();
         List<ComponentStackVersionEntity> componentStackVersions = componentStackEntity.getComponentStackVersions();
