@@ -6,17 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import refinitiv.scdadlsvc.dao.entity.ComponentStackEntity;
 import refinitiv.scdadlsvc.dao.entity.ComponentStackVersionEntity;
-import refinitiv.scdadlsvc.dao.entity.ComponentVersionEntity;
-import refinitiv.scdadlsvc.dao.entity.jntbl.ComponentConfigurationEntity;
 import refinitiv.scdadlsvc.dao.repository.ComponentStackRepository;
 import refinitiv.scdadlsvc.dao.repository.ComponentStackVersionRepository;
 import refinitiv.scdadlsvc.dao.repository.ComponentVersionRepository;
 import refinitiv.scdadlsvc.rest.dto.ComponentStackVersionDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentStackVersionNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentStackVersionService;
-import refinitiv.scdadlsvc.utility.MetadataUtility;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +43,7 @@ public class ComponentStackVersionServiceImpl implements ComponentStackVersionSe
     @Override
     public void createComponentStackVersion(Long componentStackId, ComponentStackVersionDto dto) {
         Optional<ComponentStackEntity> componentStackEntityOptional = componentStackRepository.findById(componentStackId);
+/*
         if (!componentStackEntityOptional.isPresent()) {
             // throw
         }
@@ -97,6 +94,7 @@ public class ComponentStackVersionServiceImpl implements ComponentStackVersionSe
         componentStackVersions.add(componentStackVersionEntity);
         //componentStackEntity.
 
+*/
     }
 
     @Override
