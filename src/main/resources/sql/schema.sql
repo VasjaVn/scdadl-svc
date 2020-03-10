@@ -11,7 +11,7 @@ CREATE TABLE component(
 DROP TABLE IF EXISTS component_version;
 CREATE TABLE component_version(
         id serial PRIMARY KEY,
-        component_fk INTEGER REFERENCES component(id),
+        component_id INTEGER REFERENCES component(id),
         version VARCHAR(255) NOT NULL,
         package_url VARCHAR(255) NOT NULL,
         format VARCHAR(255) NOT NULL,

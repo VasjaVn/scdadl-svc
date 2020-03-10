@@ -1,6 +1,10 @@
 package refinitiv.scdadlsvc.service;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import refinitiv.scdadlsvc.dao.entity.ComponentEntity;
 import refinitiv.scdadlsvc.dao.entity.ComponentGroupEntity;
@@ -13,13 +17,8 @@ import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.componen
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.searchobject.SearchComponentsEmptyListException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongGroupNameException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongIdException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.service.impl.ComponentServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -246,7 +245,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
         // then
     }
 
-    @Test(expected = UpdateComponentWithWrongIdException.class)
+    @Test(expected = ComponentNotFoundException.class)
     public void testUpdateComponentFailsWhenWrongId() {
         // given
         when(componentRepositoryMock.findById(anyLong())).thenReturn(Optional.ofNullable(null));

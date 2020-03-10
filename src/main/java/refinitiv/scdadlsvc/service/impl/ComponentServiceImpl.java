@@ -152,8 +152,10 @@ public class ComponentServiceImpl implements ComponentService {
             componentEntity = componentRepository.save(componentEntity);
             log.info("updateComponent: AFTER - [componentEntity={}]", componentEntity);
         } else {
-            log.warn("updateComponent: update component is not founded - [id={}]", id);
-            throw new UpdateComponentWithWrongIdException(String.format("Update component is not founded: [id=%s]", id));
+//            log.warn("updateComponent: update component is not founded - [id={}]", id);
+//            throw new UpdateComponentWithWrongIdException(String.format("Update component is not founded: [id=%s]", id));
+            log.warn("updateComponent: component is not founded - [id={}]", id);
+            throw new ComponentNotFoundException(String.format("Component is not founded: [id = %s]", id));
         }
     }
 }
