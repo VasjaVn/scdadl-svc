@@ -1,6 +1,8 @@
 package refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component;
 
-public class UpdateComponentWithWrongGroupNameException extends UpdateComponentWithWrongIdException {
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.UpdateScdadlObjectException;
+
+public class UpdateComponentWithWrongGroupNameException extends UpdateScdadlObjectException {
     public UpdateComponentWithWrongGroupNameException(String message) {
         super(message);
     }

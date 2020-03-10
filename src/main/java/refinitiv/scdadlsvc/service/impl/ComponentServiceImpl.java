@@ -1,5 +1,10 @@
 package refinitiv.scdadlsvc.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import refinitiv.scdadlsvc.dao.entity.ComponentEntity;
 import refinitiv.scdadlsvc.dao.entity.ComponentGroupEntity;
 import refinitiv.scdadlsvc.dao.entity.PlatformEntity;
@@ -12,16 +17,10 @@ import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.componen
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.searchobject.SearchComponentsEmptyListException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongIdException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongGroupNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.service.ComponentService;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -152,8 +151,6 @@ public class ComponentServiceImpl implements ComponentService {
             componentEntity = componentRepository.save(componentEntity);
             log.info("updateComponent: AFTER - [componentEntity={}]", componentEntity);
         } else {
-//            log.warn("updateComponent: update component is not founded - [id={}]", id);
-//            throw new UpdateComponentWithWrongIdException(String.format("Update component is not founded: [id=%s]", id));
             log.warn("updateComponent: component is not founded - [id={}]", id);
             throw new ComponentNotFoundException(String.format("Component is not founded: [id = %s]", id));
         }
