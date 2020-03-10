@@ -246,7 +246,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
     }
 
     @Test(expected = ComponentNotFoundException.class)
-    public void testUpdateComponentFailsWhenWrongId() {
+    public void testUpdateComponentFailsWhenComponentNotFound() {
         // given
         when(componentRepositoryMock.findById(anyLong())).thenReturn(Optional.ofNullable(null));
 
