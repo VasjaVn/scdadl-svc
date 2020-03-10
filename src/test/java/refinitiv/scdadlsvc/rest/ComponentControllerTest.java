@@ -13,6 +13,9 @@ import refinitiv.scdadlsvc.dao.entity.ComponentEntity;
 import refinitiv.scdadlsvc.dao.entity.ComponentGroupEntity;
 import refinitiv.scdadlsvc.dao.entity.PlatformEntity;
 import refinitiv.scdadlsvc.rest.controller.ComponentController;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongGroupNameException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongGroupNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
@@ -43,6 +46,108 @@ public class ComponentControllerTest {
 
     @MockBean
     private ComponentService componentServiceMock;
+
+    @Test
+    public void createComponentReturn201() throws Exception {
+        // given
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/components")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content("{\n" +
+                        "  \"id\": 101,\n" +
+                        "  \"name\": \"Eikon_ABC\",\n" +
+                        "  \"componentGroup\": \"Eikon\",\n" +
+                        "  \"platform\": \"eikon\",\n" +
+                        "  \"assetInsightId\": 2744\n" +
+                        "}");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isCreated());
+    }
+
+    @Test
+    public void createComponentReturn400() throws Exception {
+        // given
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/components")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content("{}");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createComponentReturn400WhenPlatformNameIsWrong() throws Exception {
+        // given
+        doThrow(new CreateComponentWithWrongPlatformNameException("")).when(componentServiceMock).createComponent(any());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/components")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content("{\n" +
+                        "  \"id\": 101,\n" +
+                        "  \"name\": \"Eikon_ABC\",\n" +
+                        "  \"componentGroup\": \"Eikon\",\n" +
+                        "  \"platform\": \"WrongPlatformName\",\n" +
+                        "  \"assetInsightId\": 2744\n" +
+                        "}");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createComponentReturn400WhenComponentGroupNameIsWrong() throws Exception {
+        // given
+        doThrow(new CreateComponentWithWrongGroupNameException("")).when(componentServiceMock).createComponent(any());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/components")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content("{\n" +
+                        "  \"id\": 101,\n" +
+                        "  \"name\": \"Eikon_ABC\",\n" +
+                        "  \"componentGroup\": \"WrongComponentGroupName\",\n" +
+                        "  \"platform\": \"eikon\",\n" +
+                        "  \"assetInsightId\": 2744\n" +
+                        "}");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void createComponentReturn409() throws Exception {
+        // given
+        doThrow(new ComponentAlreadyExistException("")).when(componentServiceMock).createComponent(any());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/components")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content("{\n" +
+                        "  \"id\": 101,\n" +
+                        "  \"name\": \"ComponentNameIsAlreadyExist\",\n" +
+                        "  \"componentGroup\": \"Eikon\",\n" +
+                        "  \"platform\": \"eikon\",\n" +
+                        "  \"assetInsightId\": 2744\n" +
+                        "}");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isConflict());
+    }
 
     @Test
     public void getComponentByIdReturn200() throws Exception {
@@ -99,7 +204,6 @@ public class ComponentControllerTest {
     @Test
     public void updateComponentReturn400() throws Exception {
         // given
-        doThrow(new UpdateComponentWithWrongPlatformNameException("")).when(componentServiceMock).updateComponent(anyLong(), any());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/components/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
