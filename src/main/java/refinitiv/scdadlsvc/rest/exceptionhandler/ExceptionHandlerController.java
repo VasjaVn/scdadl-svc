@@ -12,7 +12,6 @@ import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExist
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.CreateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ScdadlObjectNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.searchobject.SearchScdadlObjectsEmptyListException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.UpdateScdadlObjectException;
 
 import java.util.stream.Collectors;
@@ -33,7 +32,7 @@ public class ExceptionHandlerController {
         return ResponseEntity.status(CONFLICT).build();
     }
 
-    @ExceptionHandler({ScdadlObjectNotFoundException.class, SearchScdadlObjectsEmptyListException.class})
+    @ExceptionHandler(ScdadlObjectNotFoundException.class)
     public ResponseEntity handleNotFound(Exception ex) {
         log.error("NOT_FOUND: {}", ex.getMessage());
         return ResponseEntity.status(NOT_FOUND).build();

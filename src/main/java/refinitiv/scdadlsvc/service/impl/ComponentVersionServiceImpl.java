@@ -13,7 +13,7 @@ import refinitiv.scdadlsvc.rest.dto.ComponentVersionDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.searchobject.SearchComponentVersionsEmptyListException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentVersionService;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
 
@@ -91,7 +91,7 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
         List<ComponentVersionEntity> componentVersionEntities = componentVersionRepository.searchByComponentName(patternComponentName, PageRequest.of(page, limit)).getContent();
         if (componentVersionEntities.isEmpty()) {
             log.warn("searchComponentVersions: search component versions is empty list for query params - [page={}, limit={}, search=\"{}\"]", page, limit, patternComponentName);
-            throw new SearchComponentVersionsEmptyListException(String.format("Search component versions is empty list for query params: [page=%s, limit=%s, search=\"%s\"]", page, limit, patternComponentName));
+            throw new ComponentVersionsNotFoundException(String.format("Search component versions is empty list for query params: [page=%s, limit=%s, search=\"%s\"]", page, limit, patternComponentName));
         }
         log.info("searchComponentVersions: count of component versions - [count={}]", componentVersionEntities.size());
         return componentVersionEntities;

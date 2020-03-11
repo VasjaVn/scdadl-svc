@@ -12,7 +12,7 @@ import refinitiv.scdadlsvc.rest.dto.ComponentVersionDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.searchobject.SearchComponentVersionsEmptyListException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsNotFoundException;
 import refinitiv.scdadlsvc.service.impl.ComponentVersionServiceImpl;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
 
@@ -185,7 +185,7 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
         assertFalse(componentVersionEntities.isEmpty());
     }
 
-    @Test(expected = SearchComponentVersionsEmptyListException.class)
+    @Test(expected = ComponentVersionsNotFoundException.class)
     public void testSearchComponentVersionsFailsWhenResultIsEmptyListOfComponentVersions() {
         // given
         when(pageMock.getContent()).thenReturn(List.of());
