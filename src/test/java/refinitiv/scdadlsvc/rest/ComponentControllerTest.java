@@ -48,7 +48,6 @@ public class ComponentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content("{\n" +
-                        "  \"id\": 101,\n" +
                         "  \"name\": \"Eikon_ABC\",\n" +
                         "  \"componentGroup\": \"Eikon\",\n" +
                         "  \"platform\": \"eikon\",\n" +
@@ -85,7 +84,6 @@ public class ComponentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content("{\n" +
-                        "  \"id\": 101,\n" +
                         "  \"name\": \"Eikon_ABC\",\n" +
                         "  \"componentGroup\": \"Eikon\",\n" +
                         "  \"platform\": \"WrongPlatformName\",\n" +
@@ -107,7 +105,6 @@ public class ComponentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content("{\n" +
-                        "  \"id\": 101,\n" +
                         "  \"name\": \"Eikon_ABC\",\n" +
                         "  \"componentGroup\": \"WrongComponentGroupName\",\n" +
                         "  \"platform\": \"eikon\",\n" +
@@ -129,7 +126,6 @@ public class ComponentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content("{\n" +
-                        "  \"id\": 101,\n" +
                         "  \"name\": \"ComponentNameIsAlreadyExist\",\n" +
                         "  \"componentGroup\": \"Eikon\",\n" +
                         "  \"platform\": \"eikon\",\n" +
