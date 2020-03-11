@@ -2,6 +2,7 @@ package refinitiv.scdadlsvc.rest.exceptionhandler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -43,7 +44,8 @@ public class ExceptionHandlerController {
             UpdateScdadlObjectException.class,
             ReqParamIdAndDtoIdNotEqualsException.class,
             MethodArgumentTypeMismatchException.class,
-            MissingServletRequestParameterException.class})
+            MissingServletRequestParameterException.class,
+            HttpMessageNotReadableException.class})
     public ResponseEntity handleBadRequest(Exception ex) {
         log.error("BAD_REQUEST: {}", ex.getMessage());
         return ResponseEntity.status(BAD_REQUEST).build();
