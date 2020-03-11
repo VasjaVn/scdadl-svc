@@ -13,14 +13,17 @@ import refinitiv.scdadlsvc.rest.controller.ComponentVersionController;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentVersionService;
 
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -330,4 +333,98 @@ public class ComponentVersionControllerTest {
         result.andDo(print()).andExpect(status().isNotFound());
     }
 
+    @Test
+    public void searchComponentVersionsReturn200() throws Exception {
+        // given
+        when(componentVersionServiceMock.searchComponentVersions(anyInt(), anyInt(), any())).thenReturn(List.of(TD.createComponentVersionEntity(), TD.createComponentVersionEntity()));
+
+        // when
+        ResultActions result = mockMvc.perform(get("/component-versions")
+                .param("page", "1")
+                .param("limit", "2")
+                .param("search", "componentName"));
+
+        // then
+        result.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].id").value(TD.CompVer.ID))
+                .andExpect(jsonPath("$[0].version").value(TD.CompVer.VERSION))
+                .andExpect(jsonPath("$[0].packageUrl").value(TD.CompVer.PACKAGE_URL))
+                .andExpect(jsonPath("$[0].format").value(TD.CompVer.FORMAT))
+                .andExpect(jsonPath("$[0].qualityGrade").value(TD.CompVer.QUALITY_GRADE))
+                .andExpect(jsonPath("$[0].versionValidated").value(TD.CompVer.VERSION_VALIDATED))
+                .andExpect(jsonPath("$[0].versionValidationError").value(TD.CompVer.VERSION_VALIDATION_ERROR))
+                .andExpect(jsonPath("$[0].versionAvoid").value(TD.CompVer.VERSION_AVOID))
+                .andExpect(jsonPath("$[0].component.id").value(TD.Component.ID))
+                .andExpect(jsonPath("$[0].component.name").value(TD.Component.NAME))
+                .andExpect(jsonPath("$[0].component.componentGroup").value(TD.CompGroup.NAME))
+                .andExpect(jsonPath("$[0].component.platform").value(TD.Platform.NAME))
+                .andExpect(jsonPath("$[0].component.assetInsightId").value(TD.Component.ASSET_INSIGHT_ID))
+                .andExpect(jsonPath("$[1].id").value(TD.CompVer.ID))
+                .andExpect(jsonPath("$[1].version").value(TD.CompVer.VERSION))
+                .andExpect(jsonPath("$[1].packageUrl").value(TD.CompVer.PACKAGE_URL))
+                .andExpect(jsonPath("$[1].format").value(TD.CompVer.FORMAT))
+                .andExpect(jsonPath("$[1].qualityGrade").value(TD.CompVer.QUALITY_GRADE))
+                .andExpect(jsonPath("$[1].versionValidated").value(TD.CompVer.VERSION_VALIDATED))
+                .andExpect(jsonPath("$[1].versionValidationError").value(TD.CompVer.VERSION_VALIDATION_ERROR))
+                .andExpect(jsonPath("$[1].versionAvoid").value(TD.CompVer.VERSION_AVOID))
+                .andExpect(jsonPath("$[1].component.id").value(TD.Component.ID))
+                .andExpect(jsonPath("$[1].component.name").value(TD.Component.NAME))
+                .andExpect(jsonPath("$[1].component.componentGroup").value(TD.CompGroup.NAME))
+                .andExpect(jsonPath("$[1].component.platform").value(TD.Platform.NAME))
+                .andExpect(jsonPath("$[1].component.assetInsightId").value(TD.Component.ASSET_INSIGHT_ID));
+    }
+
+    @Test
+    public void searchComponentVersionsReturn400WhenQueryParamSearchIsMissed() throws Exception {
+        // given
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/component-versions");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void searchComponentVersionsReturn400WhenQueryParamPageHasText() throws Exception {
+        // given
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/component-versions")
+                .param("page", "text")
+                .param("search", "componentName");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void searchComponentVersionsReturn400WhenQueryParamLimitHasText() throws Exception {
+        // given
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/component-versions")
+                .param("limit", "text")
+                .param("search", "componentName");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void searchComponentVersionsReturn404() throws Exception {
+        // given
+        when(componentVersionServiceMock.searchComponentVersions(anyInt(), anyInt(), any())).thenThrow(new ComponentVersionsNotFoundException(""));
+
+        // when
+        ResultActions result = mockMvc.perform(get("/component-versions").param("search", "componentName"));
+
+        // then
+        result.andDo(print()).andExpect(status().isNotFound());
+    }
 }
