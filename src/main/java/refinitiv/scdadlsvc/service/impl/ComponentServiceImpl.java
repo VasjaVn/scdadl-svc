@@ -123,7 +123,7 @@ public class ComponentServiceImpl implements ComponentService {
 
         if (!Objects.equals(id, dto.getId())) {
             log.warn("updateComponent: request param id and id from dto are not equals - [id={}, dto.id={}]", id, dto.getId());
-            throw new ReqParamIdAndDtoIdNotEqualsException(String.format("Request param id and id from dto are not equals for update ComponentVersion: [id={}, dto.id={}]", id, dto.getId()));
+            throw new ReqParamIdAndDtoIdNotEqualsException(String.format("Request param id and id from dto are not equals for update ComponentVersion: [id=%s, dto.id=%s]", id, dto.getId()));
         }
 
         PlatformEntity platformEntity = platformRepository.findByName(dto.getPlatformName());

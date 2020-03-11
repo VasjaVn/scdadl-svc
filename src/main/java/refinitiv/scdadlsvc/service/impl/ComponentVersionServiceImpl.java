@@ -103,13 +103,13 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
 
         if (!Objects.equals(id, dto.getId())) {
             log.warn("updateComponentVersion: request param id and id from dto are not equals - [id={}, dto.id={}]", id, dto.getId());
-            throw new ReqParamIdAndDtoIdNotEqualsException(String.format("Request param id and id from dto are not equals for update ComponentVersion: [id={}, dto.id={}]", id, dto.getId()));
+            throw new ReqParamIdAndDtoIdNotEqualsException(String.format("Request param id and id from dto are not equals for update ComponentVersion: [id=%s, dto.id=%s]", id, dto.getId()));
         }
 
         Optional<ComponentVersionEntity> componentVersionEntityOptional = componentVersionRepository.findById(id);
         if (componentVersionEntityOptional.isEmpty()) {
             log.warn("updateComponentVersion: component version is not founded for updating - [componentVersionId={}]", id);
-            throw new ComponentVersionNotFoundException(String.format("Component version is not found for updating: [componentVersionId={}]", id));
+            throw new ComponentVersionNotFoundException(String.format("Component version is not found for updating: [componentVersionId=%s]", id));
         }
 
         ComponentVersionEntity componentVersionEntity = componentVersionEntityOptional.get();
