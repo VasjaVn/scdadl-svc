@@ -16,7 +16,7 @@ import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExist
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongGroupNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.searchobject.SearchComponentsEmptyListException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongGroupNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.service.ComponentService;
@@ -109,8 +109,8 @@ public class ComponentServiceImpl implements ComponentService {
     public List<ComponentEntity> searchComponents(Integer page, Integer limit, String patternComponentName) {
         List<ComponentEntity> componentEntities = componentRepository.searchByComponentName(patternComponentName, PageRequest.of(page, limit)).getContent();
         if (componentEntities.isEmpty()) {
-            log.info("searchComponents: list of components is empty for query parameters - [page={}, limit={}, search=\"{}\"]", page, limit, patternComponentName);
-            throw new SearchComponentsEmptyListException(String.format("List of components is empty for query parameters: [page=%s, limit=%s, search=\"%s\"]", page, limit, patternComponentName));
+            log.warn("searchComponents: list of components is empty for query parameters - [page={}, limit={}, search=\"{}\"]", page, limit, patternComponentName);
+            throw new ComponentsNotFoundException(String.format("List of components is empty for query parameters: [page=%s, limit=%s, search=\"%s\"]", page, limit, patternComponentName));
         }
         log.info("searchComponents: count of components - [count={}]", componentEntities.size());
         return componentEntities;

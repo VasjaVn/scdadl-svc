@@ -15,7 +15,7 @@ import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExist
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongGroupNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.searchobject.SearchComponentsEmptyListException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongGroupNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.service.impl.ComponentServiceImpl;
@@ -195,7 +195,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
         assertFalse(componentEntities.isEmpty());
     }
 
-    @Test(expected = SearchComponentsEmptyListException.class)
+    @Test(expected = ComponentsNotFoundException.class)
     public void testSearchComponentsFailsWhenNotFoundComponents() {
         // given
         when(pageMock.getContent()).thenReturn(new ArrayList<>());
