@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 import refinitiv.scdadlsvc.dao.entity.enums.Format;
 import refinitiv.scdadlsvc.dao.entity.enums.QualityGrade;
 import refinitiv.scdadlsvc.dao.entity.enums.VersionAvoid;
@@ -61,6 +62,7 @@ public class ComponentVersionEntity implements Serializable {
     private VersionAvoid versionAvoid;
 
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "validation_error")
     private String versionValidationError;
 
