@@ -38,6 +38,9 @@ public class ComponentVersionControllerTest {
     @MockBean
     private ComponentVersionService componentVersionServiceMock;
 
+    /*****************************************************************
+    * TESTS FOR: - POST /component/{componentId}/versions
+    ******************************************************************/
     @Test
     public void createComponentVersionReturn201() throws Exception {
         // given
@@ -101,6 +104,10 @@ public class ComponentVersionControllerTest {
         result.andDo(print()).andExpect(status().isNotFound());
     }
 
+
+    /******************************************************************
+     * TESTS FOR: - GET /component/{componentId}/versions
+     ******************************************************************/
     @Test
     public void getComponentVersionsByComponentIdReturn200() throws Exception {
         // given
@@ -174,6 +181,10 @@ public class ComponentVersionControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+
+    /******************************************************************
+     * TESTS FOR: - GET /component-versions/{Id}
+     ******************************************************************/
     @Test
     public void getComponentVersionByIdReturn200() throws Exception {
         // given
@@ -232,6 +243,10 @@ public class ComponentVersionControllerTest {
         result.andDo(print()).andExpect(status().isNotFound());
     }
 
+
+    /******************************************************************
+     * TESTS FOR: - PUT /component-versions/{Id}
+     ******************************************************************/
     @Test
     public void updateComponentVersionReturn200() throws Exception {
         // given
@@ -333,6 +348,10 @@ public class ComponentVersionControllerTest {
         result.andDo(print()).andExpect(status().isNotFound());
     }
 
+
+    /**************************************************************************
+     * TESTS FOR: - GET /component-versions?page=..&limit=..&search=..
+     **************************************************************************/
     @Test
     public void searchComponentVersionsReturn200() throws Exception {
         // given
