@@ -42,6 +42,9 @@ public class ComponentControllerTest {
     @MockBean
     private ComponentService componentServiceMock;
 
+    /*****************************************************************
+     * TESTS FOR: - POST /components
+     ******************************************************************/
     @Test
     public void createComponentReturn201() throws Exception {
         // given
@@ -140,6 +143,10 @@ public class ComponentControllerTest {
         result.andDo(print()).andExpect(status().isConflict());
     }
 
+
+    /*****************************************************************
+     * TESTS FOR: - GET /components/{id}
+     ******************************************************************/
     @Test
     public void getComponentByIdReturn200() throws Exception {
         // given
@@ -171,6 +178,10 @@ public class ComponentControllerTest {
         result.andDo(print()).andExpect(status().isNotFound());
     }
 
+
+    /*****************************************************************
+     * TESTS FOR: - GET /components?page=..&limit=..&search=..
+     ******************************************************************/
     @Test
     public void searchComponentsReturn200() throws Exception {
         // given
@@ -242,6 +253,10 @@ public class ComponentControllerTest {
         result.andDo(print()).andExpect(status().isNotFound());
     }
 
+
+    /*****************************************************************
+     * TESTS FOR: - PUT /components/{id}
+     ******************************************************************/
     @Test
     public void updateComponentReturn201() throws Exception {
         // given
