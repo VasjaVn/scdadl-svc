@@ -38,15 +38,12 @@ public class ExceptionHandlerController {
         return ResponseEntity.status(NOT_FOUND).build();
     }
 
-    @ExceptionHandler({CreateScdadlObjectException.class, UpdateScdadlObjectException.class, ReqParamIdAndDtoIdNotEqualsException.class})
+    @ExceptionHandler({ CreateScdadlObjectException.class,
+            UpdateScdadlObjectException.class,
+            ReqParamIdAndDtoIdNotEqualsException.class,
+            MethodArgumentTypeMismatchException.class })
     public ResponseEntity handleBadRequest(Exception ex) {
         log.error("BAD_REQUEST: {}", ex.getMessage());
-        return ResponseEntity.status(BAD_REQUEST).build();
-    }
-
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity handleBadRequestForMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
-        log.error(ex.getMessage());
         return ResponseEntity.status(BAD_REQUEST).build();
     }
 
@@ -55,13 +52,13 @@ public class ExceptionHandlerController {
         String message = ex.getBindingResult().getAllErrors().stream()
                 .map(ObjectError::getDefaultMessage)
                 .collect(Collectors.joining("; "));
-        log.error(message);
+        log.error("BAD_REQUEST: {}", message);
         return ResponseEntity.status(BAD_REQUEST).build();
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex) {
-        log.error(ex.getMessage());
+        log.error("METHOD_NOT_ALLOWED: {}", ex.getMessage());
         return ResponseEntity.status(METHOD_NOT_ALLOWED).build();
     }
 }
