@@ -12,6 +12,7 @@ import refinitiv.scdadlsvc.dao.entity.Metadata;
 import refinitiv.scdadlsvc.dao.entity.PlatformEntity;
 import refinitiv.scdadlsvc.rest.dto.ComponentDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongGroupNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
@@ -252,6 +253,17 @@ public class ComponentServiceTest extends AbstractServiceTest {
 
         // when
         componentService.updateComponent(COMPONENT_ID, componentDto);
+
+        // then
+    }
+
+    @Test(expected = ReqParamIdAndDtoIdNotEqualsException.class)
+    public void testUpdateComponentFailsWhenReqParamIdAndDtoIdNotEquals() {
+        // given
+        final Long reqParamId = 555L;
+
+        // when
+        componentService.updateComponent(reqParamId, componentDto);
 
         // then
     }

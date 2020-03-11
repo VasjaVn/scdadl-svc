@@ -13,6 +13,7 @@ import refinitiv.scdadlsvc.dao.repository.ComponentRepository;
 import refinitiv.scdadlsvc.dao.repository.PlatformRepository;
 import refinitiv.scdadlsvc.rest.dto.ComponentDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongGroupNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
@@ -119,6 +120,11 @@ public class ComponentServiceImpl implements ComponentService {
     @Override
     public void updateComponent(Long id, ComponentDto dto) {
         log.info("updateComponent: - [id={}, componentDto={}]", id, dto);
+
+        if (!Objects.equals(id, dto.getId())) {
+            log.warn("updateComponent: request param id and id from dto are not equals - [id={}, dto.id={}]", id, dto.getId());
+            throw new ReqParamIdAndDtoIdNotEqualsException(String.format("Request param id and id from dto are not equals for update ComponentVersion: [id={}, dto.id={}]", id, dto.getId()));
+        }
 
         PlatformEntity platformEntity = platformRepository.findByName(dto.getPlatformName());
         if (Objects.isNull(platformEntity)) {

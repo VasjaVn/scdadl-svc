@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import refinitiv.scdadlsvc.rest.controller.ComponentController;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongGroupNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
@@ -269,6 +270,30 @@ public class ComponentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content("{}");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void updateComponentReturn400WhenReqParamIdAndDtoIdNotEquals() throws Exception {
+        // given
+        final Long reqParId = 202L;
+        final Long dtoId = 101L;
+        doThrow(new ReqParamIdAndDtoIdNotEqualsException("")).when(componentServiceMock).updateComponent(anyLong(), any());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/components/{reqParId}", reqParId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content("{\n" +
+                        "  \"id\": " + dtoId + ",\n" +
+                        "  \"name\": \"Eikon_ABC\",\n" +
+                        "  \"componentGroup\": \"Eikon\",\n" +
+                        "  \"platform\": \"WrongPlatformName\",\n" +
+                        "  \"assetInsightId\": 2744\n" +
+                        "}");
 
         // when
         ResultActions result = mockMvc.perform(requestBuilder);
