@@ -34,11 +34,6 @@ public class ComponentVersionController {
         componentVersionService.createComponentVersion(componentId, componentVersionDto);
     }
 
-    @GetMapping(value = "/component-versions/{id}", produces = "application/json")
-    public ComponentVersionDto getComponentVersionById(@PathVariable Long id) {
-        return ComponentVersionDto.fromEntity(componentVersionService.getComponentVersionById(id));
-    }
-
     @GetMapping(value = "/component/{id}/versions", produces = "application/json")
     public List<ComponentVersionDto> getComponentVersionsByComponentId(@PathVariable("id") Long componentId) {
         return componentVersionService.getComponentVersionsByComponentId(componentId)
@@ -51,10 +46,15 @@ public class ComponentVersionController {
     public List<ComponentVersionDto> searchComponentVersions(@RequestParam(value = "page", defaultValue = "0") Integer page,
                                                              @RequestParam(value = "limit", defaultValue = "20") Integer limit,
                                                              @RequestParam(value = "search") String patternComponentName) {
-            return componentVersionService.searchComponentVersions(page, limit, patternComponentName)
-                    .stream()
-                    .map(ComponentVersionDto::fromEntity)
-                    .collect(Collectors.toList());
+        return componentVersionService.searchComponentVersions(page, limit, patternComponentName)
+                .stream()
+                .map(ComponentVersionDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping(value = "/component-versions/{id}", produces = "application/json")
+    public ComponentVersionDto getComponentVersionById(@PathVariable Long id) {
+        return ComponentVersionDto.fromEntity(componentVersionService.getComponentVersionById(id));
     }
 
     @PutMapping(value = "/component-versions/{id}", consumes = "application/json")

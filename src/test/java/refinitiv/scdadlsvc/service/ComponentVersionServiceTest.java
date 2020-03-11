@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import refinitiv.scdadlsvc.dao.entity.ComponentEntity;
 import refinitiv.scdadlsvc.dao.entity.ComponentVersionEntity;
 import refinitiv.scdadlsvc.rest.dto.ComponentVersionDto;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.componentversion.CreateComponentVersionWithWrongComponentIdException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsByComponentIdNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.searchobject.SearchComponentVersionsEmptyListException;
@@ -102,7 +102,7 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
         verify(componentVersionRepositoryMock, times(1)).save(any());
     }
 
-    @Test(expected = CreateComponentVersionWithWrongComponentIdException.class)
+    @Test(expected = ComponentNotFoundException.class)
     public void testCreateComponentVersionFailsWhenComponentIdIsNotFound() {
         // given
         when(componentRepositoryMock.findById(anyLong())).thenReturn(Optional.ofNullable(null));

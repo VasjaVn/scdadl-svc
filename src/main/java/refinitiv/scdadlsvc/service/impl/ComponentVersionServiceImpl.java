@@ -1,22 +1,22 @@
 package refinitiv.scdadlsvc.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import refinitiv.scdadlsvc.dao.entity.ComponentEntity;
 import refinitiv.scdadlsvc.dao.entity.ComponentVersionEntity;
 import refinitiv.scdadlsvc.dao.repository.ComponentRepository;
 import refinitiv.scdadlsvc.dao.repository.ComponentVersionRepository;
 import refinitiv.scdadlsvc.rest.dto.ComponentVersionDto;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.componentversion.CreateComponentVersionWithWrongComponentIdException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsByComponentIdNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.searchobject.SearchComponentVersionsEmptyListException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.componentversion.UpdateComponentVersionWithWrongIdException;
 import refinitiv.scdadlsvc.service.ComponentVersionService;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -45,7 +45,7 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
         Optional<ComponentEntity> componentEntityOptional = componentRepository.findById(componentId);
         if (componentEntityOptional.isEmpty()) {
             log.warn("createComponentVersion: component is not founded - [componentId={}]", componentId);
-            throw new CreateComponentVersionWithWrongComponentIdException(String.format("Component is not founded: [componentId=%s]", componentId));
+            throw new ComponentNotFoundException(String.format("Component is not founded: [componentId=%s]", componentId));
         }
 
         ComponentEntity componentEntity = componentEntityOptional.get();
