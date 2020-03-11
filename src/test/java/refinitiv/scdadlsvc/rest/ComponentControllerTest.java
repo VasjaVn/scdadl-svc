@@ -17,6 +17,7 @@ import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExist
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongGroupNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongGroupNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.service.ComponentService;
@@ -24,6 +25,7 @@ import refinitiv.scdadlsvc.service.ComponentService;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -175,6 +177,77 @@ public class ComponentControllerTest {
 
         // when
         ResultActions result = mockMvc.perform(get("/components/1"));
+
+        // then
+        result.andDo(print()).andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void searchComponentsReturn200() throws Exception {
+        // given
+        when(componentServiceMock.searchComponents(anyInt(), anyInt(), any())).thenReturn(List.of(createComponentEntity()));
+
+        // when
+        ResultActions result = mockMvc.perform(get("/components").param("search", "testName"));
+
+        // then
+        result.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].id").value(COMPONENT_ID))
+                .andExpect(jsonPath("$[0].name").value(COMPONENT_NAME))
+                .andExpect(jsonPath("$[0].componentGroup").value(COMPONENT_GROUP_NAME))
+                .andExpect(jsonPath("$[0].platform").value(PLATFORM_NAME))
+                .andExpect(jsonPath("$[0].assetInsightId").value(COMPONENT_ASSET_INSIGHT_ID));
+    }
+
+    @Test
+    public void searchComponentsReturn400WhenQueryParamSearchIsMissed() throws Exception {
+        // given
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/components");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void searchComponentsReturn400WhenQueryParamPageHasText() throws Exception {
+        // given
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/components")
+                .param("page", "text")
+                .param("search", "test");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void searchComponentsReturn400WhenQueryParamLimitHasText() throws Exception {
+        // given
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/components")
+                .param("limit", "text")
+                .param("search", "test");
+
+        // when
+        ResultActions result = mockMvc.perform(requestBuilder);
+
+        // then
+        result.andDo(print()).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void searchComponentsReturn404() throws Exception {
+        // given
+        when(componentServiceMock.searchComponents(anyInt(), anyInt(), any())).thenThrow(new ComponentsNotFoundException(""));
+
+        // when
+        ResultActions result = mockMvc.perform(get("/components").param("search", "testName"));
 
         // then
         result.andDo(print()).andExpect(status().isNotFound());
