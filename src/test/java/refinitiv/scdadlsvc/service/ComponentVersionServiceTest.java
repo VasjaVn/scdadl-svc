@@ -9,11 +9,10 @@ import org.springframework.data.domain.Page;
 import refinitiv.scdadlsvc.dao.entity.ComponentEntity;
 import refinitiv.scdadlsvc.dao.entity.ComponentVersionEntity;
 import refinitiv.scdadlsvc.rest.dto.ComponentVersionDto;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsByComponentIdNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.searchobject.SearchComponentVersionsEmptyListException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.componentversion.UpdateComponentVersionWithWrongIdException;
 import refinitiv.scdadlsvc.service.impl.ComponentVersionServiceImpl;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
 
@@ -160,8 +159,8 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
         assertFalse(componentVersionEntities.isEmpty());
     }
 
-    @Test(expected = ComponentVersionsByComponentIdNotFoundException.class)
-    public void testGetComponentVersionsByComponentIdFailsWhenComponentIdIsNotFound() {
+    @Test(expected = ComponentNotFoundException.class)
+    public void testGetComponentVersionsByComponentIdFailsWhenComponentNotFound() {
         // given
         when(componentRepositoryMock.findById(anyLong())).thenReturn(Optional.ofNullable(null));
 
@@ -214,8 +213,20 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
         verify(componentVersionRepositoryMock, times(1)).save(any());
     }
 
-    @Test(expected = UpdateComponentVersionWithWrongIdException.class)
-    public void testUpdateComponentVersionFailsWhenComponentVersionIdIsNotFound() {
+    @Test(expected = ReqParamIdAndDtoIdNotEqualsException.class)
+    public void testUpdateComponentVersionFailsWhenReqParIdAndDtoIdNotEqual() {
+        // given
+        final Long reqParId = 5L;
+        when(componentVersionRepositoryMock.findById(anyLong())).thenReturn(Optional.ofNullable(null));
+
+        // when
+        componentVersionService.updateComponentVersion(reqParId, componentVersionDto);
+
+        // then
+    }
+
+    @Test(expected = ComponentVersionNotFoundException.class)
+    public void testUpdateComponentVersionFailsWhenComponentVersionNotFound() {
         // given
         when(componentVersionRepositoryMock.findById(anyLong())).thenReturn(Optional.ofNullable(null));
 

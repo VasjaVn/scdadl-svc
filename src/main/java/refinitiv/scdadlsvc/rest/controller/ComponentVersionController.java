@@ -27,15 +27,15 @@ public class ComponentVersionController {
         this.componentVersionService = componentVersionService;
     }
 
-    @PostMapping(value = "/component/{id}/versions", consumes = "application/json")
+    @PostMapping(value = "/component/{componentId}/versions", consumes = "application/json")
     @ResponseStatus(CREATED)
-    public void createComponentVersion(@PathVariable("id") Long componentId,
+    public void createComponentVersion(@PathVariable Long componentId,
                                        @Valid @RequestBody ComponentVersionDto componentVersionDto) {
         componentVersionService.createComponentVersion(componentId, componentVersionDto);
     }
 
-    @GetMapping(value = "/component/{id}/versions", produces = "application/json")
-    public List<ComponentVersionDto> getComponentVersionsByComponentId(@PathVariable("id") Long componentId) {
+    @GetMapping(value = "/component/{componentId}/versions", produces = "application/json")
+    public List<ComponentVersionDto> getComponentVersionsByComponentId(@PathVariable Long componentId) {
         return componentVersionService.getComponentVersionsByComponentId(componentId)
                 .stream()
                 .map(ComponentVersionDto::fromEntity)

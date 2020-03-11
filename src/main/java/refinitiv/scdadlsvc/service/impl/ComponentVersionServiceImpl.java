@@ -10,16 +10,16 @@ import refinitiv.scdadlsvc.dao.entity.ComponentVersionEntity;
 import refinitiv.scdadlsvc.dao.repository.ComponentRepository;
 import refinitiv.scdadlsvc.dao.repository.ComponentVersionRepository;
 import refinitiv.scdadlsvc.rest.dto.ComponentVersionDto;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsByComponentIdNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.searchobject.SearchComponentVersionsEmptyListException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.componentversion.UpdateComponentVersionWithWrongIdException;
 import refinitiv.scdadlsvc.service.ComponentVersionService;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -59,14 +59,14 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
     @Transactional(readOnly = true)
     @Override
     public ComponentVersionEntity getComponentVersionById(Long id) {
-        log.info("getComponentVersionById: - [id={}]", id);
+        log.info("getComponentVersionById: - [componentVersionId={}]", id);
         Optional<ComponentVersionEntity> componentVersionEntityOptional = componentVersionRepository.findById(id);
         if (componentVersionEntityOptional.isPresent()) {
             ComponentVersionEntity componentVersionEntity = componentVersionEntityOptional.get();
             log.info("getComponentVersionById: component version is founded - [componentVersionEntity={}]", componentVersionEntity);
             return componentVersionEntity;
         } else {
-            log.info("getComponentVersionById: component version is not founded - [componentVersionId={}]", id);
+            log.warn("getComponentVersionById: component version is not founded - [componentVersionId={}]", id);
             throw new ComponentVersionNotFoundException(String.format("Component version is not founded: [componentVersionId=%s]", id));
         }
     }
@@ -77,8 +77,8 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
         log.info("getComponentVersionsByComponentId: - [componentId={}]", componentId);
         Optional<ComponentEntity> componentEntityOptional = componentRepository.findById(componentId);
         if (componentEntityOptional.isEmpty()) {
-            log.info("getComponentVersionsByComponentId: component is not founded - [componentId={}]", componentId);
-            throw new ComponentVersionsByComponentIdNotFoundException(String.format("Component is not founded: [componentId=%s]", componentId));
+            log.warn("getComponentVersionsByComponentId: component is not founded - [componentId={}]", componentId);
+            throw new ComponentNotFoundException(String.format("Component is not founded: [componentId=%s]", componentId));
         }
         List<ComponentVersionEntity> componentVersionEntities = componentEntityOptional.get().getComponentVersions();
         log.info("getComponentVersionsByComponentId: count of component versions - [count={}]", componentVersionEntities.size());
@@ -90,7 +90,7 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
         log.info("searchComponentVersions: query parameters - [page={}, limit={}, search=\"{}\"]", page, limit, patternComponentName);
         List<ComponentVersionEntity> componentVersionEntities = componentVersionRepository.searchByComponentName(patternComponentName, PageRequest.of(page, limit)).getContent();
         if (componentVersionEntities.isEmpty()) {
-            log.info("searchComponentVersions: search component versions is empty list for query params - [page={}, limit={}, search=\"{}\"]", page, limit, patternComponentName);
+            log.warn("searchComponentVersions: search component versions is empty list for query params - [page={}, limit={}, search=\"{}\"]", page, limit, patternComponentName);
             throw new SearchComponentVersionsEmptyListException(String.format("Search component versions is empty list for query params: [page=%s, limit=%s, search=\"%s\"]", page, limit, patternComponentName));
         }
         log.info("searchComponentVersions: count of component versions - [count={}]", componentVersionEntities.size());
@@ -100,10 +100,16 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
     @Override
     public void updateComponentVersion(Long id, ComponentVersionDto dto) {
         log.info("updateComponentVersion: - [id={}, componentVersionDto={}]", id, dto);
+
+        if (!Objects.equals(id, dto.getId())) {
+            log.warn("updateComponentVersion: request param id and id from dto are not equals - [id={}, dto.id={}]", id, dto.getId());
+            throw new ReqParamIdAndDtoIdNotEqualsException(String.format("Request param id and id from dto are not equals for update ComponentVersion: [id={}, dto.id={}]", id, dto.getId()));
+        }
+
         Optional<ComponentVersionEntity> componentVersionEntityOptional = componentVersionRepository.findById(id);
         if (componentVersionEntityOptional.isEmpty()) {
             log.warn("updateComponentVersion: component version is not founded for updating - [componentVersionId={}]", id);
-            throw new UpdateComponentVersionWithWrongIdException(String.format("Component version is not found for updating: [componentVersionId={}]", id));
+            throw new ComponentVersionNotFoundException(String.format("Component version is not found for updating: [componentVersionId={}]", id));
         }
 
         ComponentVersionEntity componentVersionEntity = componentVersionEntityOptional.get();

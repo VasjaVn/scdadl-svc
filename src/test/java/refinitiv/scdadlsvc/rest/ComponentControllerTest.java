@@ -9,9 +9,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import refinitiv.scdadlsvc.dao.entity.ComponentEntity;
-import refinitiv.scdadlsvc.dao.entity.ComponentGroupEntity;
-import refinitiv.scdadlsvc.dao.entity.PlatformEntity;
 import refinitiv.scdadlsvc.rest.controller.ComponentController;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongGroupNameException;
@@ -24,9 +21,9 @@ import refinitiv.scdadlsvc.service.ComponentService;
 
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -37,11 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ComponentController.class)
 public class ComponentControllerTest {
-    private static final String PLATFORM_NAME = "PlatformNameTest";
-    private static final String COMPONENT_GROUP_NAME = "ComponentGroupNameTest";
-    private static final String COMPONENT_NAME = "ComponentNameTest";
-    private static final Long COMPONENT_ID = 101L;
-    private static final Long COMPONENT_ASSET_INSIGHT_ID = 2744L;
 
     @Autowired
     private MockMvc mockMvc;
@@ -154,7 +146,7 @@ public class ComponentControllerTest {
     @Test
     public void getComponentByIdReturn200() throws Exception {
         // given
-        when(componentServiceMock.getComponentById(anyLong())).thenReturn(createComponentEntity());
+        when(componentServiceMock.getComponentById(anyLong())).thenReturn(TD.createComponentEntity());
 
         // when
         ResultActions result = mockMvc.perform(get("/components/1").accept(MediaType.APPLICATION_JSON));
@@ -163,11 +155,11 @@ public class ComponentControllerTest {
         result.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(COMPONENT_ID))
-                .andExpect(jsonPath("$.name").value(COMPONENT_NAME))
-                .andExpect(jsonPath("$.componentGroup").value(COMPONENT_GROUP_NAME))
-                .andExpect(jsonPath("$.platform").value(PLATFORM_NAME))
-                .andExpect(jsonPath("$.assetInsightId").value(COMPONENT_ASSET_INSIGHT_ID));
+                .andExpect(jsonPath("$.id").value(TD.Component.ID))
+                .andExpect(jsonPath("$.name").value(TD.Component.NAME))
+                .andExpect(jsonPath("$.componentGroup").value(TD.CompGroup.NAME))
+                .andExpect(jsonPath("$.platform").value(TD.Platform.NAME))
+                .andExpect(jsonPath("$.assetInsightId").value(TD.Component.ASSET_INSIGHT_ID));
     }
 
     @Test
@@ -185,7 +177,7 @@ public class ComponentControllerTest {
     @Test
     public void searchComponentsReturn200() throws Exception {
         // given
-        when(componentServiceMock.searchComponents(anyInt(), anyInt(), any())).thenReturn(List.of(createComponentEntity()));
+        when(componentServiceMock.searchComponents(anyInt(), anyInt(), any())).thenReturn(List.of(TD.createComponentEntity()));
 
         // when
         ResultActions result = mockMvc.perform(get("/components").param("search", "testName"));
@@ -194,11 +186,11 @@ public class ComponentControllerTest {
         result.andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].id").value(COMPONENT_ID))
-                .andExpect(jsonPath("$[0].name").value(COMPONENT_NAME))
-                .andExpect(jsonPath("$[0].componentGroup").value(COMPONENT_GROUP_NAME))
-                .andExpect(jsonPath("$[0].platform").value(PLATFORM_NAME))
-                .andExpect(jsonPath("$[0].assetInsightId").value(COMPONENT_ASSET_INSIGHT_ID));
+                .andExpect(jsonPath("$[0].id").value(TD.Component.ID))
+                .andExpect(jsonPath("$[0].name").value(TD.Component.NAME))
+                .andExpect(jsonPath("$[0].componentGroup").value(TD.CompGroup.NAME))
+                .andExpect(jsonPath("$[0].platform").value(TD.Platform.NAME))
+                .andExpect(jsonPath("$[0].assetInsightId").value(TD.Component.ASSET_INSIGHT_ID));
     }
 
     @Test
@@ -353,23 +345,5 @@ public class ComponentControllerTest {
 
         // then
         result.andDo(print()).andExpect(status().isNotFound());
-    }
-
-    private ComponentEntity createComponentEntity() {
-        PlatformEntity platformEntity = PlatformEntity.builder()
-                .name(PLATFORM_NAME)
-                .build();
-        ComponentGroupEntity componentGroupEntity = ComponentGroupEntity.builder()
-                .name(COMPONENT_GROUP_NAME)
-                .platform(platformEntity)
-                .build();
-
-        return ComponentEntity.builder()
-                .id(COMPONENT_ID)
-                .assetInsightId(COMPONENT_ASSET_INSIGHT_ID)
-                .name(COMPONENT_NAME)
-                .componentGroup(componentGroupEntity)
-                .componentVersions(List.of())
-                .build();
     }
 }
