@@ -11,7 +11,6 @@ import refinitiv.scdadlsvc.dao.repository.ComponentRepository;
 import refinitiv.scdadlsvc.dao.repository.ComponentVersionRepository;
 import refinitiv.scdadlsvc.rest.dto.ComponentVersionDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentVersionService;
@@ -67,7 +66,7 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
             return componentVersionEntity;
         } else {
             log.warn("getComponentVersionById: component version is not founded - [componentVersionId={}]", id);
-            throw new ComponentVersionNotFoundException(String.format("Component version is not founded: [componentVersionId=%s]", id));
+            throw new ScdadlObjectNotFoundException(String.format("ComponentVersion is not founded: [componentVersionId=%s]", id));
         }
     }
 
@@ -109,7 +108,7 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
         Optional<ComponentVersionEntity> componentVersionEntityOptional = componentVersionRepository.findById(id);
         if (componentVersionEntityOptional.isEmpty()) {
             log.warn("updateComponentVersion: component version is not founded for updating - [componentVersionId={}]", id);
-            throw new ComponentVersionNotFoundException(String.format("Component version is not found for updating: [componentVersionId=%s]", id));
+            throw new ScdadlObjectNotFoundException(String.format("ComponentVersion is not found for updating: [componentVersionId=%s]", id));
         }
 
         ComponentVersionEntity componentVersionEntity = componentVersionEntityOptional.get();

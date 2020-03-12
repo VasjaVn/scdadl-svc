@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import refinitiv.scdadlsvc.rest.controller.ComponentVersionController;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentVersionService;
@@ -234,8 +233,9 @@ public class ComponentVersionControllerTest {
     @Test
     public void getComponentVersionByIdReturn404() throws Exception {
         // given
-        doThrow(new ComponentVersionNotFoundException("")).when(componentVersionServiceMock).getComponentVersionById(anyLong());
         final Integer componentVersionIdNotExist = 2;
+        doThrow(new ScdadlObjectNotFoundException("ComponentVersion is not founded: [componentVersionId=" + componentVersionIdNotExist + "]"))
+                .when(componentVersionServiceMock).getComponentVersionById(anyLong());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/component-versions/{Id}", componentVersionIdNotExist)
                 .accept(MediaType.APPLICATION_JSON);
 
@@ -329,12 +329,14 @@ public class ComponentVersionControllerTest {
     @Test
     public void updateComponentVersionReturn404() throws Exception {
         // given
-        doThrow(new ComponentVersionNotFoundException("")).when(componentVersionServiceMock).updateComponentVersion(anyLong(), any());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/component-versions/101")
+        final Integer componentVersionIdNotExist = 2;
+        doThrow(new ScdadlObjectNotFoundException("ComponentVersion is not founded: [componentVersionId=" + componentVersionIdNotExist + "]"))
+                .when(componentVersionServiceMock).updateComponentVersion(anyLong(), any());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/component-versions/{id}", componentVersionIdNotExist)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content("{\n" +
-                        "  \"id\": 101,\n" +
+                        "  \"id\": " + componentVersionIdNotExist + ",\n" +
                         "  \"packageUrl\": \"http://package.url\",\n" +
                         "  \"format\": \"R10K\",\n" +
                         "  \"version\": \"<major>.<minor>.<patch>-<build>-<label>\",\n" +
