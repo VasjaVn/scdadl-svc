@@ -15,9 +15,9 @@ import refinitiv.scdadlsvc.rest.dto.ComponentDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentService;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
 
@@ -64,7 +64,6 @@ public class ComponentServiceImpl implements ComponentService {
                 .findFirst();
         if (componentGroupEntityOptional.isEmpty()) {
             log.warn("createComponent: component group name is not existed - [componentGroupName=\"{}\"]", dto.getComponentGroupName());
-            //throw new CreateComponentWithWrongGroupNameException(String.format("Component group name is not existed: [componentGroupName=\"%s\"]", dto.getComponentGroupName()));
             throw new CreateScdadlObjectException(String.format("Create \"Component\": component group name is not existed [componentGroupName=\"%s\"]", dto.getComponentGroupName()));
         }
 
@@ -99,8 +98,8 @@ public class ComponentServiceImpl implements ComponentService {
             log.info("getComponentById: - [componentEntity={}]", componentEntity);
             return componentEntity;
         } else {
-            log.info("getComponentById: component is not founded - [id={}]", id);
-            throw new ComponentNotFoundException(String.format("Component is not founded: [id = %s]", id));
+            log.warn("getComponentById: component is not founded - [id={}]", id);
+            throw new ScdadlObjectNotFoundException(String.format("Component is not founded: [id = %s]", id));
         }
     }
 
@@ -157,7 +156,7 @@ public class ComponentServiceImpl implements ComponentService {
             log.info("updateComponent: AFTER - [componentEntity={}]", componentEntity);
         } else {
             log.warn("updateComponent: component is not founded - [id={}]", id);
-            throw new ComponentNotFoundException(String.format("Component is not founded: [id = %s]", id));
+            throw new ScdadlObjectNotFoundException(String.format("Component is not founded: [id = %s]", id));
         }
     }
 }

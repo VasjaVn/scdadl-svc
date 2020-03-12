@@ -10,9 +10,9 @@ import refinitiv.scdadlsvc.dao.entity.ComponentEntity;
 import refinitiv.scdadlsvc.dao.entity.ComponentVersionEntity;
 import refinitiv.scdadlsvc.rest.dto.ComponentVersionDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsNotFoundException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.impl.ComponentVersionServiceImpl;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
 
@@ -101,7 +101,7 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
         verify(componentVersionRepositoryMock, times(1)).save(any());
     }
 
-    @Test(expected = ComponentNotFoundException.class)
+    @Test(expected = ScdadlObjectNotFoundException.class)
     public void testCreateComponentVersionFailsWhenComponentIdIsNotFound() {
         // given
         when(componentRepositoryMock.findById(anyLong())).thenReturn(Optional.ofNullable(null));
@@ -159,7 +159,7 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
         assertFalse(componentVersionEntities.isEmpty());
     }
 
-    @Test(expected = ComponentNotFoundException.class)
+    @Test(expected = ScdadlObjectNotFoundException.class)
     public void testGetComponentVersionsByComponentIdFailsWhenComponentNotFound() {
         // given
         when(componentRepositoryMock.findById(anyLong())).thenReturn(Optional.ofNullable(null));

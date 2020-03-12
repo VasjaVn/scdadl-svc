@@ -11,9 +11,9 @@ import refinitiv.scdadlsvc.dao.repository.ComponentRepository;
 import refinitiv.scdadlsvc.dao.repository.ComponentVersionRepository;
 import refinitiv.scdadlsvc.rest.dto.ComponentVersionDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsNotFoundException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentVersionService;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
 
@@ -45,7 +45,7 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
         Optional<ComponentEntity> componentEntityOptional = componentRepository.findById(componentId);
         if (componentEntityOptional.isEmpty()) {
             log.warn("createComponentVersion: component is not founded - [componentId={}]", componentId);
-            throw new ComponentNotFoundException(String.format("Component is not founded: [componentId=%s]", componentId));
+            throw new ScdadlObjectNotFoundException(String.format("Component is not founded: [componentId=%s]", componentId));
         }
 
         ComponentEntity componentEntity = componentEntityOptional.get();
@@ -78,7 +78,7 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
         Optional<ComponentEntity> componentEntityOptional = componentRepository.findById(componentId);
         if (componentEntityOptional.isEmpty()) {
             log.warn("getComponentVersionsByComponentId: component is not founded - [componentId={}]", componentId);
-            throw new ComponentNotFoundException(String.format("Component is not founded: [componentId=%s]", componentId));
+            throw new ScdadlObjectNotFoundException(String.format("Component is not founded: [componentId=%s]", componentId));
         }
         List<ComponentVersionEntity> componentVersionEntities = componentEntityOptional.get().getComponentVersions();
         log.info("getComponentVersionsByComponentId: count of component versions - [count={}]", componentVersionEntities.size());

@@ -13,9 +13,9 @@ import refinitiv.scdadlsvc.rest.controller.ComponentController;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentService;
 
 import java.util.List;
@@ -171,7 +171,8 @@ public class ComponentControllerTest {
     @Test
     public void getComponentByIdReturn404() throws Exception {
         // given
-        when(componentServiceMock.getComponentById(anyLong())).thenThrow(new ComponentNotFoundException("Component not found"));
+        when(componentServiceMock.getComponentById(anyLong()))
+                .thenThrow(new ScdadlObjectNotFoundException("Component is not founded: [id = 1]"));
 
         // when
         ResultActions result = mockMvc.perform(get("/components/1"));
@@ -368,8 +369,9 @@ public class ComponentControllerTest {
     @Test
     public void updateComponentReturn404() throws Exception {
         // given
-        doThrow(new ComponentNotFoundException("")).when(componentServiceMock).updateComponent(anyLong(), any());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/components/1")
+        doThrow(new ScdadlObjectNotFoundException("Component is not founded: [id = 101]"))
+                .when(componentServiceMock).updateComponent(anyLong(), any());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/components/101")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content("{\n" +

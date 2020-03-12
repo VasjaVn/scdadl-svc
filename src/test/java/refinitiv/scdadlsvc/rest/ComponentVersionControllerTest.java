@@ -11,9 +11,9 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import refinitiv.scdadlsvc.rest.controller.ComponentVersionController;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsNotFoundException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentVersionService;
 
 import java.util.List;
@@ -82,8 +82,9 @@ public class ComponentVersionControllerTest {
     @Test
     public void createComponentVersionReturn404() throws Exception {
         // given
-        doThrow(new ComponentNotFoundException("")).when(componentVersionServiceMock).createComponentVersion(anyLong(), any());
         final Integer componentIdNotExist = 2;
+        doThrow(new ScdadlObjectNotFoundException("Component is not founded: [id=" + componentIdNotExist + "]"))
+                .when(componentVersionServiceMock).createComponentVersion(anyLong(), any());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/component/{componentId}/versions", componentIdNotExist)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
@@ -169,8 +170,10 @@ public class ComponentVersionControllerTest {
     @Test
     public void getComponentVersionsByComponentIdReturn404WhenComponentNotFound() throws Exception {
         // given
-        doThrow(new ComponentNotFoundException("")).when(componentVersionServiceMock).getComponentVersionsByComponentId(anyLong());
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/component/555/versions")
+        final Integer componentIdNotExist = 555;
+        doThrow(new ScdadlObjectNotFoundException("Component is not founded: [id=" + componentIdNotExist + "]"))
+                .when(componentVersionServiceMock).getComponentVersionsByComponentId(anyLong());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/component/{componentId}/versions", componentIdNotExist)
                 .accept(MediaType.APPLICATION_JSON);
 
         // when

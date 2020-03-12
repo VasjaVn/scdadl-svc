@@ -14,9 +14,9 @@ import refinitiv.scdadlsvc.rest.dto.ComponentDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.impl.ComponentServiceImpl;
 
 import java.util.ArrayList;
@@ -169,7 +169,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
         assertEquals(COMPONENT_PLATFORM_NAME, componentEntity.getComponentGroup().getPlatform().getName());
     }
 
-    @Test(expected = ComponentNotFoundException.class)
+    @Test(expected = ScdadlObjectNotFoundException.class)
     public void testGetComponentByIdFailsWhenComponentNotFound() {
         // given
         when(componentRepositoryMock.findById(anyLong())).thenReturn(Optional.ofNullable(null));
@@ -244,7 +244,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
         // then
     }
 
-    @Test(expected = ComponentNotFoundException.class)
+    @Test(expected = ScdadlObjectNotFoundException.class)
     public void testUpdateComponentFailsWhenComponentNotFound() {
         // given
         when(componentRepositoryMock.findById(anyLong())).thenReturn(Optional.ofNullable(null));
