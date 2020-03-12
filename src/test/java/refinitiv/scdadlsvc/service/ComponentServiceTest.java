@@ -16,7 +16,7 @@ import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectExc
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ScdadlObjectNotFoundException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.impl.ComponentServiceImpl;
 
 import java.util.ArrayList;
