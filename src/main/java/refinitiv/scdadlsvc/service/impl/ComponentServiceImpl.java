@@ -17,8 +17,7 @@ import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectExc
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.UpdateScdadlObjectException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
 import refinitiv.scdadlsvc.service.ComponentService;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
 
@@ -129,7 +128,7 @@ public class ComponentServiceImpl implements ComponentService {
         PlatformEntity platformEntity = platformRepository.findByName(dto.getPlatformName());
         if (Objects.isNull(platformEntity)) {
             log.warn("updateComponent: platform name is not existed - [platformName=\"{}\"]", dto.getPlatformName());
-            throw new UpdateComponentWithWrongPlatformNameException(String.format("Platform name is not existed: [platformName=\"%s\"]", dto.getPlatformName()));
+            throw new UpdateScdadlObjectException(String.format("Update \"Component\": platform name is not existed: [platformName=\"%s\"]", dto.getPlatformName()));
         }
         log.info("updateComponent: - [platformEntity={}]", platformEntity);
 

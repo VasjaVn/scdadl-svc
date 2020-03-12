@@ -15,8 +15,7 @@ import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectExc
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.UpdateScdadlObjectException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
 import refinitiv.scdadlsvc.service.ComponentService;
 
 import java.util.List;
@@ -323,7 +322,7 @@ public class ComponentControllerTest {
     @Test
     public void updateComponentReturn400WhenPlatformNameIsWrong() throws Exception {
         // given
-        doThrow(new UpdateComponentWithWrongPlatformNameException("")).when(componentServiceMock).updateComponent(anyLong(), any());
+        doThrow(new UpdateScdadlObjectException("")).when(componentServiceMock).updateComponent(anyLong(), any());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/components/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")

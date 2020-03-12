@@ -14,7 +14,7 @@ import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExist
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ScdadlObjectNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.UpdateScdadlObjectException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
 
 import java.util.stream.Collectors;
 

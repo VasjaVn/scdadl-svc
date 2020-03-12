@@ -16,8 +16,7 @@ import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectExc
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.UpdateScdadlObjectException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
 import refinitiv.scdadlsvc.service.impl.ComponentServiceImpl;
 
 import java.util.ArrayList;
@@ -221,7 +220,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
         // then
     }
 
-    @Test(expected = UpdateComponentWithWrongPlatformNameException.class)
+    @Test(expected = UpdateScdadlObjectException.class)
     public void testUpdateComponentFailsWhenWrongPartnerName() {
         // given
         componentDto.setPlatformName("WRONG_PLATFORM_NAME");

@@ -1,4 +1,4 @@
-package refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject;
+package refinitiv.scdadlsvc.rest.exceptionhandler.exception;
 
 public class UpdateScdadlObjectException extends RuntimeException {
     public UpdateScdadlObjectException(String message) {
