@@ -13,10 +13,10 @@ import refinitiv.scdadlsvc.dao.entity.PlatformEntity;
 import refinitiv.scdadlsvc.rest.dto.ComponentDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ListScdadlObjectsEmptyException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ScdadlObjectNotFoundException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
 import refinitiv.scdadlsvc.service.impl.ComponentServiceImpl;
 
 import java.util.ArrayList;
@@ -194,7 +194,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
         assertFalse(componentEntities.isEmpty());
     }
 
-    @Test(expected = ComponentsNotFoundException.class)
+    @Test(expected = ListScdadlObjectsEmptyException.class)
     public void testSearchComponentsFailsWhenNotFoundComponents() {
         // given
         when(pageMock.getContent()).thenReturn(new ArrayList<>());

@@ -14,10 +14,10 @@ import refinitiv.scdadlsvc.dao.repository.PlatformRepository;
 import refinitiv.scdadlsvc.rest.dto.ComponentDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ListScdadlObjectsEmptyException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ScdadlObjectNotFoundException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
 import refinitiv.scdadlsvc.service.ComponentService;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
 
@@ -109,7 +109,7 @@ public class ComponentServiceImpl implements ComponentService {
         List<ComponentEntity> componentEntities = componentRepository.searchByComponentName(patternComponentName, PageRequest.of(page, limit)).getContent();
         if (componentEntities.isEmpty()) {
             log.warn("searchComponents: list of components is empty for query parameters - [page={}, limit={}, search=\"{}\"]", page, limit, patternComponentName);
-            throw new ComponentsNotFoundException(String.format("List of components is empty for query parameters: [page=%s, limit=%s, search=\"%s\"]", page, limit, patternComponentName));
+            throw new ListScdadlObjectsEmptyException(String.format("List of components is empty for query parameters: [page=%s, limit=%s, search=\"%s\"]", page, limit, patternComponentName));
         }
         log.info("searchComponents: count of components - [count={}]", componentEntities.size());
         return componentEntities;

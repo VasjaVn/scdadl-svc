@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ListScdadlObjectsEmptyException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ScdadlObjectNotFoundException;
@@ -34,7 +35,7 @@ public class ExceptionHandlerController {
         return ResponseEntity.status(CONFLICT).build();
     }
 
-    @ExceptionHandler(ScdadlObjectNotFoundException.class)
+    @ExceptionHandler({ ScdadlObjectNotFoundException.class, ListScdadlObjectsEmptyException.class })
     public ResponseEntity handleNotFound(Exception ex) {
         log.error("NOT_FOUND: {}", ex.getMessage());
         return ResponseEntity.status(NOT_FOUND).build();

@@ -12,8 +12,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import refinitiv.scdadlsvc.rest.controller.ComponentController;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ListScdadlObjectsEmptyException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.UpdateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentService;
@@ -23,6 +23,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -247,7 +248,8 @@ public class ComponentControllerTest {
     @Test
     public void searchComponentsReturn404() throws Exception {
         // given
-        when(componentServiceMock.searchComponents(anyInt(), anyInt(), any())).thenThrow(new ComponentsNotFoundException(""));
+        when(componentServiceMock.searchComponents(anyInt(), anyInt(), anyString()))
+                .thenThrow(new ListScdadlObjectsEmptyException("List of components is empty for query parameters: [page=0, limit=20, search=\"testName\"]"));
 
         // when
         ResultActions result = mockMvc.perform(get("/components").param("search", "testName"));
