@@ -19,6 +19,7 @@ public class MetadataUtilityTest {
 
         // then
         assertNotNull(metadata.getCreatedDate());
+        assertNotNull(metadata.getCreatedDate());
         assertEquals(CREATED_BY, metadata.getCreatedBy());
         assertNull(metadata.getUpdatedDate());
         assertNull(metadata.getUpdatedBy());
