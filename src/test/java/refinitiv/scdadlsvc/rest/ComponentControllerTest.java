@@ -12,8 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import refinitiv.scdadlsvc.rest.controller.ComponentController;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.CreateScdadlObjectException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongGroupNameException;
@@ -83,14 +82,16 @@ public class ComponentControllerTest {
     @Test
     public void createComponentReturn400WhenPlatformNameIsWrong() throws Exception {
         // given
-        doThrow(new CreateComponentWithWrongPlatformNameException("")).when(componentServiceMock).createComponent(any());
+        final String wrongPlatformName = "wrongPlatformName";
+        doThrow(new CreateScdadlObjectException("Create \"Component\": platform name is not existed: [platformName=\"" + wrongPlatformName + "\"]"))
+                .when(componentServiceMock).createComponent(any());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/components")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content("{\n" +
                         "  \"name\": \"Eikon_ABC\",\n" +
                         "  \"componentGroup\": \"Eikon\",\n" +
-                        "  \"platform\": \"WrongPlatformName\",\n" +
+                        "  \"platform\": \"" + wrongPlatformName + "\",\n" +
                         "  \"assetInsightId\": 2744\n" +
                         "}");
 
