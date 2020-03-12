@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import refinitiv.scdadlsvc.rest.controller.ComponentController;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongGroupNameException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.CreateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
@@ -22,9 +22,9 @@ import refinitiv.scdadlsvc.service.ComponentService;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -104,13 +104,15 @@ public class ComponentControllerTest {
     @Test
     public void createComponentReturn400WhenComponentGroupNameIsWrong() throws Exception {
         // given
-        doThrow(new CreateComponentWithWrongGroupNameException("")).when(componentServiceMock).createComponent(any());
+        final String wrongGroupName = "WrongComponentGroupName";
+        doThrow(new CreateScdadlObjectException("Create \"Component\": component group name is not existed [componentGroupName=\"" + wrongGroupName + "\"]"))
+                .when(componentServiceMock).createComponent(any());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/components")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content("{\n" +
                         "  \"name\": \"Eikon_ABC\",\n" +
-                        "  \"componentGroup\": \"WrongComponentGroupName\",\n" +
+                        "  \"componentGroup\": \"" + wrongGroupName + "\",\n" +
                         "  \"platform\": \"eikon\",\n" +
                         "  \"assetInsightId\": 2744\n" +
                         "}");

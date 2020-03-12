@@ -14,8 +14,7 @@ import refinitiv.scdadlsvc.dao.repository.PlatformRepository;
 import refinitiv.scdadlsvc.rest.dto.ComponentDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongGroupNameException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.CreateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongGroupNameException;
@@ -58,7 +57,8 @@ public class ComponentServiceImpl implements ComponentService {
         PlatformEntity platformEntity = platformRepository.findByName(dto.getPlatformName());
         if (Objects.isNull(platformEntity)) {
             log.warn("createComponent: platform name is not existed - [platformName=\"{}\"]", dto.getPlatformName());
-            throw new CreateComponentWithWrongPlatformNameException(String.format("Platform name is not existed: [platformName=\"%s\"]", dto.getPlatformName()));
+//          //throw new CreateComponentWithWrongPlatformNameException(String.format("Platform name is not existed: [platformName=\"%s\"]", dto.getPlatformName()));
+            throw new CreateScdadlObjectException(String.format("Create \"Component\": platform name is not existed: [platformName=\"%s\"]", dto.getPlatformName()));
         }
 
         Optional<ComponentGroupEntity> componentGroupEntityOptional = platformEntity.getComponentGroups().stream()
@@ -66,7 +66,8 @@ public class ComponentServiceImpl implements ComponentService {
                 .findFirst();
         if (componentGroupEntityOptional.isEmpty()) {
             log.warn("createComponent: component group name is not existed - [componentGroupName=\"{}\"]", dto.getComponentGroupName());
-            throw new CreateComponentWithWrongGroupNameException(String.format("Component group name is not existed: [componentGroupName=\"%s\"]", dto.getComponentGroupName()));
+            //throw new CreateComponentWithWrongGroupNameException(String.format("Component group name is not existed: [componentGroupName=\"%s\"]", dto.getComponentGroupName()));
+            throw new CreateScdadlObjectException(String.format("Create \"Component\": component group name is not existed [componentGroupName=\"%s\"]", dto.getComponentGroupName()));
         }
 
         ComponentGroupEntity componentGroupEntity = componentGroupEntityOptional.get();

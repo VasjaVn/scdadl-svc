@@ -13,7 +13,7 @@ import refinitiv.scdadlsvc.dao.entity.PlatformEntity;
 import refinitiv.scdadlsvc.rest.dto.ComponentDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongGroupNameException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.CreateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.createobject.component.CreateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
@@ -136,7 +136,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
         // then
     }
 
-    @Test(expected = CreateComponentWithWrongGroupNameException.class)
+    @Test(expected = CreateScdadlObjectException.class)
     public void testCreateComponentFailsWhenWrongComponentGroupName() {
         // given
         componentDto.setComponentGroupName("WRONG_COMPONENT_GROUP_NAME");
