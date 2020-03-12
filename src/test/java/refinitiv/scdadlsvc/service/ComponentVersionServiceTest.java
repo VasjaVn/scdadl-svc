@@ -9,8 +9,8 @@ import org.springframework.data.domain.Page;
 import refinitiv.scdadlsvc.dao.entity.ComponentEntity;
 import refinitiv.scdadlsvc.dao.entity.ComponentVersionEntity;
 import refinitiv.scdadlsvc.rest.dto.ComponentVersionDto;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ListScdadlObjectsEmptyException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.impl.ComponentVersionServiceImpl;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
@@ -184,7 +184,7 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
         assertFalse(componentVersionEntities.isEmpty());
     }
 
-    @Test(expected = ComponentVersionsNotFoundException.class)
+    @Test(expected = ListScdadlObjectsEmptyException.class)
     public void testSearchComponentVersionsFailsWhenResultIsEmptyListOfComponentVersions() {
         // given
         when(pageMock.getContent()).thenReturn(List.of());

@@ -10,8 +10,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import refinitiv.scdadlsvc.rest.controller.ComponentVersionController;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ListScdadlObjectsEmptyException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentVersionService;
 
@@ -20,6 +20,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -443,7 +444,8 @@ public class ComponentVersionControllerTest {
     @Test
     public void searchComponentVersionsReturn404() throws Exception {
         // given
-        when(componentVersionServiceMock.searchComponentVersions(anyInt(), anyInt(), any())).thenThrow(new ComponentVersionsNotFoundException(""));
+        when(componentVersionServiceMock.searchComponentVersions(anyInt(), anyInt(), anyString()))
+                .thenThrow(new ListScdadlObjectsEmptyException("List of ComponentVersions is empty list for query params: [page=0, limit=20, search=\"componentName\"]"));
 
         // when
         ResultActions result = mockMvc.perform(get("/component-versions").param("search", "componentName"));

@@ -10,8 +10,8 @@ import refinitiv.scdadlsvc.dao.entity.ComponentVersionEntity;
 import refinitiv.scdadlsvc.dao.repository.ComponentRepository;
 import refinitiv.scdadlsvc.dao.repository.ComponentVersionRepository;
 import refinitiv.scdadlsvc.rest.dto.ComponentVersionDto;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ListScdadlObjectsEmptyException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentVersionsNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ScdadlObjectNotFoundException;
 import refinitiv.scdadlsvc.service.ComponentVersionService;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
@@ -89,8 +89,8 @@ public class ComponentVersionServiceImpl implements ComponentVersionService {
         log.info("searchComponentVersions: query parameters - [page={}, limit={}, search=\"{}\"]", page, limit, patternComponentName);
         List<ComponentVersionEntity> componentVersionEntities = componentVersionRepository.searchByComponentName(patternComponentName, PageRequest.of(page, limit)).getContent();
         if (componentVersionEntities.isEmpty()) {
-            log.warn("searchComponentVersions: search component versions is empty list for query params - [page={}, limit={}, search=\"{}\"]", page, limit, patternComponentName);
-            throw new ComponentVersionsNotFoundException(String.format("Search component versions is empty list for query params: [page=%s, limit=%s, search=\"%s\"]", page, limit, patternComponentName));
+            log.warn("searchComponentVersions: list of ComponentVersions is empty for query params - [page={}, limit={}, search=\"{}\"]", page, limit, patternComponentName);
+            throw new ListScdadlObjectsEmptyException(String.format("List of ComponentVersions is empty list for query params: [page=%s, limit=%s, search=\"%s\"]", page, limit, patternComponentName));
         }
         log.info("searchComponentVersions: count of component versions - [count={}]", componentVersionEntities.size());
         return componentVersionEntities;
