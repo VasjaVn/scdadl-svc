@@ -98,7 +98,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
     }
 
     /*************************************************
-     *  TESTS - CREATE_COMPONENT - createComponent()
+     *  TESTS FOR: - createComponent()
      *************************************************/
     @Test
     public void testCreateComponentSuccess() {
@@ -146,7 +146,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
     }
 
     /****************************************************
-     *  TESTS - GET_COMPONENT_BY_ID - createComponent()
+     *  TESTS FOR: - createComponent()
      ****************************************************/
     @Test
     public void testGetComponentByIdSuccess() {
@@ -181,7 +181,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
     }
 
     /***************************************************
-     *  TESTS - SEARCH_COMPONENTS - searchComponents()
+     *  TESTS FOR: - searchComponents()
      ***************************************************/
     @Test
     public void testSearchComponentsSuccess() {
@@ -207,7 +207,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
     }
 
     /*************************************************
-     *  TESTS - UPDATE_COMPONENT - updateComponent()
+     *  TESTS FOR: - updateComponent()
      *************************************************/
     @Test
     public void testUpdateComponentSuccess() {

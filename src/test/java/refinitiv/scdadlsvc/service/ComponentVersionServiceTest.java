@@ -87,7 +87,7 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
     }
 
     /***************************************************************
-     *  TESTS - CREATE_COMPONENT_VERSION - createComponentVersion()
+     *  TESTS FOR: - createComponentVersion()
      ***************************************************************/
     @Test
     public void testCreateComponentVersionSuccess() {
@@ -112,7 +112,7 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
     }
 
     /********************************************************************
-     *  TESTS - GET_COMPONENT_VERSION_BY_ID - getComponentVersionById()
+     *  TESTS FOR: - getComponentVersionById()
      ********************************************************************/
     @Test
     public void testGetComponentVersionByIdSuccess() {
@@ -144,7 +144,7 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
     }
 
     /*****************************************************************************************
-     *  TESTS - GET_COMPONENT_VERSIONS_BY_COMPONENT_ID - getComponentVersionsByComponentId()
+     *  TESTS FOR: - getComponentVersionsByComponentId()
      *****************************************************************************************/
     @Test
     public void testGetComponentVersionsByComponentIdSuccess() {
@@ -170,7 +170,7 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
     }
 
     /******************************************************************
-     *  TESTS - SEARCH_COMPONENT_VERSIONS - searchComponentVersions()
+     *  TESTS FOR: - searchComponentVersions()
      ******************************************************************/
     @Test
     public void testSearchComponentVersionsSuccess() {
@@ -197,7 +197,7 @@ public class ComponentVersionServiceTest extends AbstractServiceTest {
     }
 
     /*****************************************************************
-     *  TESTS - UPDATE_COMPONENT_VERSIONS - updateComponentVersion()
+     *  TESTS FOR: - updateComponentVersion()
      *****************************************************************/
     @Test
     public void testUpdateComponentVersionSuccess() {
