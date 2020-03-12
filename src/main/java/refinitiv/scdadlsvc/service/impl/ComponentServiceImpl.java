@@ -13,11 +13,11 @@ import refinitiv.scdadlsvc.dao.repository.ComponentRepository;
 import refinitiv.scdadlsvc.dao.repository.PlatformRepository;
 import refinitiv.scdadlsvc.rest.dto.ComponentDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongGroupNameException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.UpdateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.service.ComponentService;
 import refinitiv.scdadlsvc.utility.MetadataUtility;
@@ -136,7 +136,7 @@ public class ComponentServiceImpl implements ComponentService {
         ComponentGroupEntity componentGroupEntity = componentGroupRepository.findByName(dto.getComponentGroupName());
         if (Objects.isNull(componentGroupEntity)) {
             log.warn("updateComponent: component group name is not existed - [componentGroupName=\"{}\"]", dto.getComponentGroupName());
-            throw new UpdateComponentWithWrongGroupNameException(String.format("Component group name is not existed: [componentGroupName=\"%s\"]", dto.getComponentGroupName()));
+            throw new UpdateScdadlObjectException(String.format("Update \"Component\": component group name is not existed [componentGroupName=\"%s\"]", dto.getComponentGroupName()));
         }
         log.info("updateComponent: - [componentGroupEntity={}]", componentGroupEntity);
 

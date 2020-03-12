@@ -12,11 +12,11 @@ import refinitiv.scdadlsvc.dao.entity.Metadata;
 import refinitiv.scdadlsvc.dao.entity.PlatformEntity;
 import refinitiv.scdadlsvc.rest.dto.ComponentDto;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongGroupNameException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.UpdateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.service.impl.ComponentServiceImpl;
 
@@ -233,7 +233,7 @@ public class ComponentServiceTest extends AbstractServiceTest {
         // then
     }
 
-    @Test(expected = UpdateComponentWithWrongGroupNameException.class)
+    @Test(expected = UpdateScdadlObjectException.class)
     public void testUpdateComponentFailsWhenWrongComponentGroupName() {
         // given
         componentDto.setComponentGroupName("WRONG_COMPONENT_GROUP_NAME");

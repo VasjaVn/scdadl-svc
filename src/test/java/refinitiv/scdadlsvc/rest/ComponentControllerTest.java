@@ -11,11 +11,11 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import refinitiv.scdadlsvc.rest.controller.ComponentController;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ComponentAlreadyExistException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.CreateScdadlObjectException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.ReqParamIdAndDtoIdNotEqualsException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentNotFoundException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.objectnotfound.ComponentsNotFoundException;
-import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongGroupNameException;
+import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.UpdateScdadlObjectException;
 import refinitiv.scdadlsvc.rest.exceptionhandler.exception.updateobject.component.UpdateComponentWithWrongPlatformNameException;
 import refinitiv.scdadlsvc.service.ComponentService;
 
@@ -345,14 +345,16 @@ public class ComponentControllerTest {
     @Test
     public void updateComponentReturn400WhenComponentGroupNameIsWrong() throws Exception {
         // given
-        doThrow(new UpdateComponentWithWrongGroupNameException("")).when(componentServiceMock).updateComponent(anyLong(), any());
+        final String wrongComponentGroupName = "wrongComponentGroupName";
+        doThrow(new UpdateScdadlObjectException("Update \"Component\": component group name is not existed [componentGroupName=\"" + wrongComponentGroupName + "\"]"))
+                .when(componentServiceMock).updateComponent(anyLong(), any());
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.put("/components/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content("{\n" +
                         "  \"id\": 101,\n" +
                         "  \"name\": \"Eikon_ABC\",\n" +
-                        "  \"componentGroup\": \"WrongComponentGroupName\",\n" +
+                        "  \"componentGroup\": \"" + wrongComponentGroupName + "\",\n" +
                         "  \"platform\": \"eikon\",\n" +
                         "  \"assetInsightId\": 2744\n" +
                         "}");
