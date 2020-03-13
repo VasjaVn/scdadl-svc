@@ -10,6 +10,7 @@ import lombok.ToString;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,7 +39,7 @@ public class ComponentGroupEntity {
     @Embedded
     private Metadata metadata;
 
-    @OneToMany(mappedBy = "componentGroup")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "componentGroup")
     private List<ComponentEntity> components;
 
     @ManyToOne
